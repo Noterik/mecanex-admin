@@ -1,7 +1,6 @@
 # mecanex-admin
 
-This project is generated with [yo angular generator](https://github.com/yeoman/generator-angular)
-version 0.15.1.
+This is the mecanex administration panel. 
 
 ## Build & development
 
