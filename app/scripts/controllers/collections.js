@@ -9,7 +9,7 @@
  */
 angular.module('mecanexAdminApp')
   .controller('CollectionsCtrl', ['$scope', function($scope) {
-    $scope.collections = [
+    $scope.cols = [
       {
         name: 'Landscape',
         amountVideos: '12',

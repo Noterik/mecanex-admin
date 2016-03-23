@@ -21,17 +21,17 @@
         </div>
 
         <!-- The collections -->
-        <div class="collection col-sm-3" ng-repeat="collection in collections">
+        <div class="collection col-sm-3" ng-repeat="col in cols">
           <div class="collection-content sixteen-nine">
             <div class="content">
               <div class="collection-label">
-                {{collection.name}}
+                {{col.name}}
               </div>
               <div class="collection-thumb">
-                <img ng-src="{{collection.img}}" class="fill img-responsive" alt="{{collection.amountVideos}}" />
+                <img ng-src="{{col.img}}" class="fill img-responsive" alt="{{col.amountVideos}}" />
               </div>
               <div class="collection-counter">
-                <span class="badge">{{collection.amountVideos}}</span>
+                <span class="badge">{{col.amountVideos}}</span>
               </div>
             </div>
           </div>
