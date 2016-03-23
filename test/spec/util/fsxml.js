@@ -18,7 +18,7 @@ describe('Utility: Fsxml', function(){
     });
 
     var xml = fsxml.renderFromResource(mockObject);
-    expect(xml === "<fsxml><properties><name>jantje</name><lastname>jansen</lastname></properties></fsxml>");
+    expect(xml === '<fsxml><properties><name>jantje</name><lastname>jansen</lastname></properties></fsxml>');
   });
 
   it('should throw an exception from an object that\'s not a resource', function(){

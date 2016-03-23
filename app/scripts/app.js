@@ -29,6 +29,9 @@ angular
         controller: 'AboutCtrl',
         controllerAs: 'about'
       })
+      .when('/collections', {
+        templateUrl: 'views/collections.html'
+      })
       .otherwise({
         redirectTo: '/'
       });

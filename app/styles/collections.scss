@@ -1,0 +1,40 @@
+@import "colors/default.scss";
+
+.collections{
+  margin-bottom: 30px;
+
+  .collections-list{
+    .collection{
+      overflow: hidden;
+      .collection-content{
+        background-color: $collection-thumb-bg-color;
+
+        .collection-label{
+          padding: 5px;
+          background-color: $collection-thumb-label-color;
+          z-index: 100;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: auto;
+          color: $collection-thumb-label-text-color;
+        }
+
+        .collection-thumb{
+          z-index: 98;
+          position: absolute;
+          width: 100%;
+          height: 100%;
+        }
+
+        .collection-counter{
+          z-index: 99;
+          position: absolute;
+          right: 20px;
+          bottom: 20px;
+        }
+      }
+    }
+  }
+}

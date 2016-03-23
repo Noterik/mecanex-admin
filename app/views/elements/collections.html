@@ -1,0 +1,42 @@
+<div class="row" ng-controller="CollectionsCtrl">
+  <div class="col-md-12 collections">
+    <div class="row">
+      <div class="collections-list">
+
+        <!-- The default "new collection" button -->
+        <div class="collection col-sm-3">
+          <div class="collection-content sixteen-nine">
+            <div class="content">
+              <div class="collection-thumb">
+                <div class="center-wrapper">
+                  <div class="center">
+                    <button class="btn btn-default">
+                      <i class="glyphicon glyphicon-plus" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- The collections -->
+        <div class="collection col-sm-3" ng-repeat="collection in collections">
+          <div class="collection-content sixteen-nine">
+            <div class="content">
+              <div class="collection-label">
+                {{collection.name}}
+              </div>
+              <div class="collection-thumb">
+                <img ng-src="{{collection.img}}" class="filling img-responsive" alt="{{collection.amountVideos}}" />
+              </div>
+              <div class="collection-counter">
+                <span class="badge">{{collection.amountVideos}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

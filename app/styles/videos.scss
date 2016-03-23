@@ -1,0 +1,39 @@
+@import "colors/default.scss";
+@import "mixins/aspect-ratio.scss";
+@import "sass-mediaqueries/_media-queries.scss";
+
+$default-video-row-height: 150px;
+$desktop-video-row-height: $default-video-row-height;
+$desktop-video-row-thumb-aspect-ratio: 16/9;
+$desktop-video-row-margin-bottom: 10px;
+
+.videos{
+  position: relative;
+  .video{
+    position: relative;
+    overflow: hidden;
+    margin-bottom: $desktop-video-row-margin-bottom;
+    height: $default_video_row_height;
+
+    @include min-screen(1024px) {
+      height: $desktop_video_row_height;
+    }
+
+    .video-thumb{
+      float: left;
+
+      @include min-screen(1024px) {
+        height: $desktop_video_row_height;
+        width: $desktop_video_row_height * $desktop-video-row-thumb-aspect-ratio;
+      }
+
+      overflow: hidden;
+    }
+
+    .video-information{
+      height: $desktop_video_row_height;
+      width: auto;
+      overflow: hidden;
+    }
+  }
+}
