@@ -11,16 +11,34 @@
   </div>
 
   <div class="row">
-    <div class="videos-list col-md-12">
+    <div class="videos-list col-sm-12">
       <div class="video row" ng-repeat="video in videos">
-        <div class="col-md-12">
-          <div class="row">
-            <div class="video-thumb">
-              <img class="filling image-responsive" ng-src="{{video.img}}" alt="{{video.name}}" />
-            </div>
-            <div class="video-information">
-              <h3>{{video.name}}</h3>
-              <span>Lorum ipsum bla bla bla</span>
+        <div class="container-fluid">
+          <div class="col-sm-12">
+            <div class="row">
+              <div class="video-thumb">
+                <img class="fill image-responsive" ng-src="{{video.img}}" alt="{{video.name}}" />
+              </div>
+              <div class="video-information">
+                <div class="row fill-height">
+                    <div class="col-sm-8">
+                      <div class="video-descriptions">
+                        <h3>{{video.name}}</h3>
+                        <span>Lorum ipsum bla bla bla</span>
+                      </div>
+                    </div>
+                    <div class="col-sm-4 fill-height">
+                      <div class="video-actions center-wrapper">
+                        <div class="vcenter actions-wrapper">
+                          <button class="video-action" ng-repeat="action in actions">
+                            <img ng-src="{{action.img}}" alt="{{action.description}}" />
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

@@ -13,15 +13,15 @@ angular.module('mecanexAdminApp')
       {
         name: 'Landscape',
         amountVideos: '12',
-        img: 'images/collections/landscape.jpg'
+        img: 'http://placehold.it/320x180/cc0099?text=16:9'
       },{
         name: 'People',
         amountVideos: '25',
-        img: 'images/collections/people.jpg'
+        img: 'http://placehold.it/320x180/cc0099?text=16:9'
       },{
         name: 'Art',
         amountVideos: '5',
-        img: 'images/collections/art.jpg'
+        img: 'http://placehold.it/320x180/cc0099?text=16:9'
       }
     ];
 

@@ -13,16 +13,22 @@ angular.module('mecanexAdminApp')
       {
         name: 'Mountain',
         description: '',
-        img: 'images/videos/mountain.jpg'
+        img: 'http://placehold.it/320x180?text=16:9'
       },{
         name: 'Tree',
         description: '',
-        img: 'images/videos/tree.jpg'
+        img: 'http://placehold.it/320x180?text=16:9'
       },{
         name: 'Panda',
         description: '',
-        img: 'images/videos/panda.jpg'
+        img: 'http://placehold.it/320x180?text=16:9'
       }
     ];
 
+    $scope.actions = [
+      {
+        description: 'Add to collection',
+        img: 'images/icons/add.svg'
+      }
+    ];
   }]);

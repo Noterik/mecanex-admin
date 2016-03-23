@@ -34,6 +34,19 @@ $desktop-video-row-margin-bottom: 10px;
       height: $desktop_video_row_height;
       width: auto;
       overflow: hidden;
+
+      .video-descriptions{
+        h3{
+          margin-top: 0.5em;
+        }
+        padding-left: 0.5em;
+      }
+
+      .video-actions{
+        .actions-wrapper{
+          right: 0;
+        }
+      }
     }
   }
 }
