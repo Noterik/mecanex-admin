@@ -8,22 +8,8 @@
  * Controller of the mecanexAdminApp
  */
 angular.module('mecanexAdminApp')
-  .controller('VideosCtrl', ['$scope', function($scope) {
-    $scope.videos = [
-      {
-        name: 'Mountain',
-        description: '',
-        img: 'http://placehold.it/320x180?text=16:9'
-      },{
-        name: 'Tree',
-        description: '',
-        img: 'http://placehold.it/320x180?text=16:9'
-      },{
-        name: 'Panda',
-        description: '',
-        img: 'http://placehold.it/320x180?text=16:9'
-      }
-    ];
+  .controller('VideosCtrl', ['$scope', 'RandomVideos', function($scope, RandomVideos) {
+    $scope.videos = RandomVideos.query();
 
     $scope.actions = [
       {

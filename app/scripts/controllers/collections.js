@@ -8,19 +8,19 @@
  * Controller of the mecanexAdminApp
  */
 angular.module('mecanexAdminApp')
-  .controller('CollectionsCtrl', ['$scope', function($scope) {
+  .controller('CollectionsCtrl', ['$scope', 'chance', function($scope, chance) {
     $scope.cols = [
       {
-        name: 'Landscape',
-        amountVideos: '12',
+        name: chance.sentence({words: chance.integer({min: 1, max: 5})}),
+        amountVideos: chance.integer({min: 1, max: 50}),
         img: 'http://placehold.it/320x180/cc0099?text=16:9'
       },{
-        name: 'People',
-        amountVideos: '25',
+        name: chance.sentence({words: chance.integer({min: 1, max: 5})}),
+        amountVideos: chance.integer({min: 1, max: 50}),
         img: 'http://placehold.it/320x180/cc0099?text=16:9'
       },{
-        name: 'Art',
-        amountVideos: '5',
+        name: chance.sentence({words: chance.integer({min: 1, max: 5})}),
+        amountVideos: chance.integer({min: 1, max: 50}),
         img: 'http://placehold.it/320x180/cc0099?text=16:9'
       }
     ];
