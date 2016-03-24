@@ -3,6 +3,17 @@
 .collections{
   margin-bottom: 30px;
 
+  .carousel{
+    .carousel-control{
+      width: 5%;
+      background-image: none;
+    }
+
+    .carousel-indicators{
+      display: none;
+    }
+  }
+
   .collections-list{
     .collection{
       overflow: hidden;
@@ -18,6 +29,7 @@
           left: 0;
           width: 100%;
           height: auto;
+          text-align: left;
           color: $collection-thumb-label-text-color;
         }
 

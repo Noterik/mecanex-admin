@@ -15,7 +15,10 @@ angular
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch'
+    'ngTouch',
+    'ui.bootstrap',
+    'underscore',
+    'angular.filter'
   ])
   .config(function ($routeProvider) {
     $routeProvider

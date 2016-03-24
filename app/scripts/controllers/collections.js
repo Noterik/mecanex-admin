@@ -8,21 +8,25 @@
  * Controller of the mecanexAdminApp
  */
 angular.module('mecanexAdminApp')
-  .controller('CollectionsCtrl', ['$scope', 'chance', function($scope, chance) {
-    $scope.cols = [
-      {
-        name: chance.sentence({words: chance.integer({min: 1, max: 5})}),
-        amountVideos: chance.integer({min: 1, max: 50}),
-        img: 'http://placehold.it/320x180/cc0099?text=16:9'
-      },{
-        name: chance.sentence({words: chance.integer({min: 1, max: 5})}),
-        amountVideos: chance.integer({min: 1, max: 50}),
-        img: 'http://placehold.it/320x180/cc0099?text=16:9'
-      },{
-        name: chance.sentence({words: chance.integer({min: 1, max: 5})}),
-        amountVideos: chance.integer({min: 1, max: 50}),
-        img: 'http://placehold.it/320x180/cc0099?text=16:9'
-      }
-    ];
+  .controller('CollectionsCtrl', ['$scope', '$uibModal', 'RandomCollections', function($scope, $uibModal, RandomCollections) {
 
+    $scope.cols = [];
+    $scope.colsPerSlide = 4;
+
+    $scope.find = function(){
+      RandomCollections.query().then(function(collections){
+        collections.items.unshift(null);
+        $scope.cols = collections.items;
+      });
+    };
+
+    $scope.newCollectionDialog = function(){
+      $uibModal.open({
+        animation: true,
+        templateUrl: 'views/elements/dialogs/new-collection-dialog.html',
+        controller: 'NewCollectionDialogCtrl'
+      });
+    };
+
+    $scope.find();
   }]);

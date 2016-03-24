@@ -105,6 +105,15 @@ body {
     -webkit-transform: translateY(-50%);
     transform: translateY(-50%);
   }
+
+  .hcenter{
+    max-width: 100%;
+    max-height: 100%;
+    position: absolute;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+  }
 }
 
 /* Element that fills its parent element */
@@ -119,6 +128,12 @@ body {
 
 .fill-width{
   width: 100%;
+}
+
+/* Pagination inside navbar fix */
+.navbar-form.paging ul{
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 /* Responsive: Portrait tablets and up */
