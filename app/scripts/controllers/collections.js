@@ -23,7 +23,7 @@ angular.module('mecanexAdminApp')
     $scope.newCollectionDialog = function(){
       $uibModal.open({
         animation: true,
-        templateUrl: 'views/elements/dialogs/new-collection-dialog.html',
+        templateUrl: 'views/new-collection-dialog.html',
         controller: 'NewCollectionDialogCtrl'
       });
     };
