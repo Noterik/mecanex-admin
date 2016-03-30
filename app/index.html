@@ -23,7 +23,7 @@
     <div ng-include src="'views/elements/header.html'"></div>
 
     <div class="container-fluid">
-      <div ng-view=""></div>
+      <div ui-view></div>
     </div>
 
     <div class="footer">
@@ -60,8 +60,11 @@
     <script src="bower_components/underscore/underscore.js"></script>
     <script src="bower_components/angular-underscore-module/angular-underscore-module.js"></script>
     <script src="bower_components/angular-filter/dist/angular-filter.min.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="bower_components/forerunnerdb/js/dist/fdb-all.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
+    <script src="bower_components/forerunnerdb/js/dist/fdb-angular.js"></script>
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
@@ -69,12 +72,14 @@
         <script src="scripts/util/fsxml.js"></script>
         <script src="scripts/resources/springfield-resource.js"></script>
         <script src="scripts/resources/users-resource.js"></script>
-        <script src="scripts/resources/external-random-videos.js"></script>
-        <script src="scripts/resources/random-collections.js"></script>
+        <script src="scripts/util/random-data.js"></script>
+        <script src="scripts/resources/external-videos.js"></script>
+        <script src="scripts/resources/collection-videos.js"></script>
+        <script src="scripts/resources/collections.js"></script>
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/controllers/about.js"></script>
-        <script src="scripts/controllers/collections.js"></script>
-        <script src="scripts/controllers/videos.js"></script>
+        <script src="scripts/controllers/collections-list-controller.js"></script>
+        <script src="scripts/controllers/videos-list-controller.js"></script>
         <script src="scripts/controllers/new-collection-dialog-ctrl.js"></script>
         <!-- endbuild -->
 </body>

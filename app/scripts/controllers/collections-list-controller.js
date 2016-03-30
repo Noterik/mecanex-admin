@@ -8,13 +8,14 @@
  * Controller of the mecanexAdminApp
  */
 angular.module('mecanexAdminApp')
-  .controller('CollectionsCtrl', ['$scope', '$uibModal', 'RandomCollections', function($scope, $uibModal, RandomCollections) {
+  .controller('CollectionsListCtrl', ['$scope', '$uibModal', 'Collections', function($scope, $uibModal, Collections) {
 
     $scope.cols = [];
     $scope.colsPerSlide = 4;
+    $scope.curSlide = 0;
 
     $scope.find = function(){
-      RandomCollections.query().then(function(collections){
+      Collections.query().then(function(collections){
         collections.items.unshift(null);
         $scope.cols = collections.items;
       });

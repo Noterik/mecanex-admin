@@ -8,7 +8,7 @@
  * Controller of the mecanexAdminApp
  */
 angular.module('mecanexAdminApp')
-  .controller('VideosCtrl', ['$scope', '$log', 'ExternalRandomVideos', function($scope, $log, Videos) {
+  .controller('VideosListCtrl', ['$scope', '$log', '$stateParams', 'ColVideos', 'ExternalVideos', function($scope, $log, $stateParams, ColVideos, ExternalVideos) {
 
     $scope.items = [];
 
@@ -16,13 +16,20 @@ angular.module('mecanexAdminApp')
     $scope.currentPage = 1;
     $scope.limit = 10;
     $scope.maxPages = 5;
+    $scope.col = $stateParams.colId ? $stateParams.colId : null;
+
+    var Videos = $scope.col ? ColVideos : ExternalVideos;
+    var query = $scope.col ? {colId: $scope.col} : {};
 
     $scope.setPage = function(pageNo) {
       $scope.currentPage = pageNo;
 
       Videos.query({
-        page: $scope.currentPage,
-        limit: $scope.limit
+        query: query,
+        settings:{
+          page: $scope.currentPage,
+          limit: $scope.limit
+        }
       }).then(function(results){
         $scope.totalItems = results.totalItems;
         $scope.currentPage = results.page;
@@ -31,7 +38,6 @@ angular.module('mecanexAdminApp')
     };
 
     $scope.pageChanged = function() {
-      $log.log('Page changed to: ' + $scope.currentPage);
       $scope.setPage($scope.currentPage);
     };
 

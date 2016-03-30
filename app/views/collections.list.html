@@ -1,4 +1,4 @@
-<div class="row" ng-controller="CollectionsCtrl">
+<div class="row">
   <div class="col-md-12 collections">
     <div class="row">
       <uib-carousel active="active" interval="myInterval" no-wrap="noWrapSlides">
@@ -30,7 +30,9 @@
                     {{col.name}}
                   </div>
                   <div class="collection-thumb">
-                    <img ng-src="{{col.img}}" class="fill img-responsive" alt="{{col.amountVideos}}" />
+                    <a ui-sref="collections.list({colId: col._id, slideIndex: $index})">
+                      <img ng-src="{{col.img}}" class="fill img-responsive" alt="{{col.amountVideos}}" />
+                    </a>
                   </div>
                   <div class="collection-counter">
                     <span class="badge">{{col.amountVideos}}</span>

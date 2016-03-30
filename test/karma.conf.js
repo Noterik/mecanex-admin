@@ -34,6 +34,8 @@ module.exports = function(config) {
       'bower_components/underscore/underscore.js',
       'bower_components/angular-underscore-module/angular-underscore-module.js',
       'bower_components/angular-filter/dist/angular-filter.min.js',
+      'bower_components/angular-ui-router/release/angular-ui-router.js',
+      'bower_components/forerunnerdb/js/dist/fdb-all.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'app/scripts/**/*.js',
