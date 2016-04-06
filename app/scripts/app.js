@@ -24,10 +24,34 @@ angular
   ])
   .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
 
-    $urlRouterProvider.otherwise('/collections');
+    $urlRouterProvider.otherwise('/login');
 
     $stateProvider
-      .state('collections', {
+      .state('login', {
+        abstract: true,
+        views:{
+          '': {
+            templateUrl: 'views/pages/login.html'
+          }
+        }
+      })
+      .state('login.default', {
+        url: '/login',
+        views: {
+          '': {
+            templateUrl: 'views/login.default.html'
+          }
+        }
+      })
+      .state('pages', {
+        abstract: true,
+        views: {
+          '': {
+            templateUrl: 'views/pages/default.html'
+          }
+        }
+      })
+      .state('pages.collections', {
         abstract: true,
         url: '/collections',
         views: {
@@ -36,7 +60,7 @@ angular
           }
         }
       })
-      .state('collections.default', {
+      .state('pages.collections.default', {
         url: '',
         views:{
           '': {
@@ -49,7 +73,7 @@ angular
           }
         }
       })
-      .state('collections.list', {
+      .state('pages.collections.list', {
         url: '/:colId',
         views:{
           '': {
