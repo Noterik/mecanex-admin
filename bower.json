@@ -25,6 +25,12 @@
   "appPath": "app",
   "moduleName": "mecanexAdminApp",
   "overrides": {
+    "forerunnerdb": {
+      "main": [
+        "js/dist/fdb-all.min.js",
+        "js/dist/fdb-angular.min.js"
+      ]
+    },
     "bootstrap": {
       "main": [
         "less/bootstrap.less",
