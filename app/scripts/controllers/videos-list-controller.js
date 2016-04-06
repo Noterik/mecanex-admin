@@ -43,7 +43,7 @@ angular.module('mecanexAdminApp')
 
     $scope.actions = [{
       description: 'Add to collection',
-      img: 'images/icons/add.svg'
+      icon: 'plus'
     }];
 
     $scope.setPage(1);

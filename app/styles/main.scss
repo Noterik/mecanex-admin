@@ -1,5 +1,4 @@
 $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
-
 @import "mixins/aspect-ratio.scss";
 @import "collections.scss";
 @import "videos.scss";
@@ -8,14 +7,12 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 @import "bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
 @import "sass-mediaqueries/_media-queries.scss";
 // endbower
-
 .browsehappy {
   margin: 0.2em 0;
   background: #ccc;
   color: #000;
   padding: 0.2em 0;
 }
-
 body {
   padding: 0;
 }
@@ -47,7 +44,6 @@ body {
   color: #777;
   border-top: 1px solid #e5e5e5;
 }
-
 .container-narrow > hr {
   margin: 30px 0;
 }
@@ -56,7 +52,6 @@ body {
 .jumbotron {
   text-align: center;
   border-bottom: 1px solid #e5e5e5;
-
   .btn {
     font-size: 21px;
     padding: 14px 24px;
@@ -66,28 +61,29 @@ body {
 /* Supporting marketing content */
 .marketing {
   margin: 40px 0;
-
   p + h4 {
     margin-top: 28px;
   }
 }
 
 /* Element that maintains aspect-ratio */
-.sixteen-nine{
+.sixteen-nine {
   @include aspect-ratio(16, 9);
 }
-
-.four-three{
+.four-three {
   @include aspect-ratio(4, 3);
 }
 
+.one-one{
+  @include aspect-ratio(1, 1);
+}
+
 /* Image that stays in middle (vertically & horizontally) */
-.center-wrapper{
+.center-wrapper {
   position: relative;
   width: 100%;
   height: 100%;
-
-  .center{
+  .center {
     max-width: 100%;
     max-height: 100%;
     position: absolute;
@@ -96,8 +92,7 @@ body {
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
   }
-
-  .vcenter{
+  .vcenter {
     max-width: 100%;
     max-height: 100%;
     position: absolute;
@@ -105,8 +100,7 @@ body {
     -webkit-transform: translateY(-50%);
     transform: translateY(-50%);
   }
-
-  .hcenter{
+  .hcenter {
     max-width: 100%;
     max-height: 100%;
     position: absolute;
@@ -117,23 +111,89 @@ body {
 }
 
 /* Element that fills its parent element */
-.fill{
+.fill {
   width: 100%;
   height: 100%;
 }
-
-.fill-height{
+.fill-height {
   height: 100%;
 }
-
-.fill-width{
+.fill-width {
   width: 100%;
 }
 
 /* Pagination inside navbar fix */
-.navbar-form.paging ul{
+.navbar-form.paging ul {
   margin-top: 0;
   margin-bottom: 0;
+}
+
+/* Pagination styles */
+.pagination > li > a {
+  border: none;
+  color: $blue;
+}
+.pagination > li.active > a {
+  background-color: $light-blue;
+}
+.pagination > li > a:hover {
+  background-color: $light-blue;
+  color: $white;
+}
+
+/* Navbar styles */
+.navbar-default {
+  background-color: $blue;
+  border-radius: 0;
+  border: none;
+  color: $white;
+  .navbar-brand {
+    color: $white;
+  }
+}
+
+/* Round icon button */
+.round-icon-button{
+  border: none;
+  border-radius: 50%;
+
+  span{
+    margin-left: 5%;
+    margin-bottom: 5%;
+    font-size: 3vw;
+    vertical-align: middle;
+  }
+}
+
+/* Search input */
+.input-group.search {
+    border-radius: 10px;
+    overflow: hidden;
+   ::-webkit-input-placeholder {
+    color: $light-gray;
+  }
+   :-moz-placeholder {
+    /* Firefox 18- */
+    color: $light-gray
+  }
+   ::-moz-placeholder {
+    /* Firefox 19+ */
+    color: $light-gray
+  }
+   :-ms-input-placeholder {
+    color: $light-gray
+  }
+  input[type="text"] {
+    color: $white !important;
+    border: none;
+    background-color: $light-blue;
+    box-shadow: none;
+  }
+  .input-group-addon {
+    border: none;
+    color: $white !important;
+    background-color: $light-blue;
+  }
 }
 
 /* Responsive: Portrait tablets and up */

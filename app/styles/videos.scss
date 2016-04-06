@@ -32,6 +32,7 @@ $desktop-video-row-margin-bottom: 10px;
 
     .video-information{
       height: $desktop_video_row_height;
+      background-color: $list-item-color;
       width: auto;
       overflow: hidden;
 
@@ -43,8 +44,34 @@ $desktop-video-row-margin-bottom: 10px;
       }
 
       .video-actions{
-        .actions-wrapper{
-          right: 0;
+        width: 100%;
+        padding-right: 50px;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        position: absolute;
+
+        @include min-screen(1024px) {
+          height: 50px;
+        }
+        .round-icon-button{
+          color: $white;
+          background-color: $light-gray;
+          float: right;
+          height: 100%;
+
+          @include min-screen(1024px) {
+            width: 50px;
+          }
+
+          span{
+            font-size: 1vw;
+          }
+        }
+
+        .round-icon-botton:hover{
+          background-color: $dark-gray;
         }
       }
     }

@@ -11,7 +11,7 @@ angular.module('mecanexAdminApp').factory('RandomData', ['chance', '$q', '$fdb',
         _id: chance.guid(),
         name: chance.sentence({words: chance.integer({min: 1, max: 5})}),
         description: chance.sentence({words: chance.integer({min: 30, max: 100})}),
-        img: 'http://placehold.it/320x180?text=16:9'
+        img: 'https://unsplash.it/320/180/?random&i=' + chance.integer({min: 10, max: 20})
       };
     }
 
@@ -29,7 +29,7 @@ angular.module('mecanexAdminApp').factory('RandomData', ['chance', '$q', '$fdb',
         collection: {
           _id: id,
           name: chance.sentence({words: chance.integer({min: 1, max: 5})}),
-          img: 'http://placehold.it/320x180/cc0099?text=16:9',
+          img: 'https://unsplash.it/320/180/?random&i=' + chance.integer({min: 10, max: 20}),
           description: chance.paragraph(),
           amountVideos: videos.length
         },
@@ -41,7 +41,7 @@ angular.module('mecanexAdminApp').factory('RandomData', ['chance', '$q', '$fdb',
         return {
           name: chance.sentence({words: chance.integer({min: 1, max: 5})}),
           description: chance.sentence({words: chance.integer({min: 30, max: 100})}),
-          img: 'http://placehold.it/320x180?text=16:9'
+          img: 'https://unsplash.it/320/180/?random&i=' + chance.integer({min: 10, max: 20})
         };
     }
 

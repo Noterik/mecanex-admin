@@ -1,4 +1,14 @@
-$blue: rgb(72, 175, 235);
-$collection-thumb-bg-color: black;
+$blue: rgb(80, 178, 224);
+$light-blue: rgb(106, 189, 228);
+$gray: rgb(235, 235, 235);
+$white: rgb(255, 255, 255);
+$light-gray: rgb(226, 226, 225);
+$dark-gray: rgb(210, 210, 210);
+$transparent: rgba(0, 0, 0, 0);
+
+$text-color: $blue;
+$widget-color: $light-blue;
+$list-item-color: $gray;
+$collection-thumb-bg-color: $blue;
 $collection-thumb-label-color: rgba(0, 0, 0, 0.5);
 $collection-thumb-label-text-color: white;

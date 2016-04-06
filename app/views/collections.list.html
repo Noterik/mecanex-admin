@@ -4,23 +4,6 @@
       <uib-carousel active="active" interval="myInterval" no-wrap="noWrapSlides">
         <uib-slide ng-repeat="block in cols | chunkBy: 4 track by $index" index="$index">
           <div class="collections-list">
-            <!-- The default "new collection" button -->
-            <!--
-            <div class="collection col-sm-3">
-              <div class="collection-content sixteen-nine">
-                <div class="content">
-                  <div class="collection-thumb">
-                    <div class="center-wrapper">
-                      <div class="center">
-                        <button class="btn btn-default" ng-click="newCollectionDialog()">
-                          <i class="glyphicon glyphicon-plus"></i>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>-->
 
             <!-- The collections -->
             <div class="collection col-sm-3" ng-repeat="col in block">
@@ -42,13 +25,9 @@
               <div ng-if="col == null" class="collection-content sixteen-nine">
                 <div class="content">
                   <div class="collection-thumb">
-                    <div class="center-wrapper">
-                      <div class="center">
-                        <button class="btn btn-default" ng-click="newCollectionDialog()">
-                          <i class="glyphicon glyphicon-plus"></i>
-                        </button>
-                      </div>
-                    </div>
+                      <button class="btn btn-default round-icon-button" ng-click="newCollectionDialog()">
+                        <span class="glyphicon glyphicon-plus"></span>
+                      </button>
                   </div>
                 </div>
               </div>

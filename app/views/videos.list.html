@@ -4,9 +4,11 @@
       <div class="col-sm-3">
         <form class="navbar-form navbar-input-group" role="search">
           <div class="form-group">
-            <input type="text" class="form-control" placeholder="Search">
+            <div class="input-group search">
+              <input type="text" class="form-control" placeholder="Search">
+              <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
+            </div>
           </div>
-          <button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button>
         </form>
       </div>
       <div class="col-sm-6">
@@ -39,12 +41,10 @@
                       </div>
                     </div>
                     <div class="col-sm-4 fill-height">
-                      <div class="video-actions center-wrapper">
-                        <div class="vcenter actions-wrapper">
-                          <button class="video-action" ng-repeat="action in actions">
-                            <img ng-src="{{action.img}}" alt="{{action.description}}" />
-                          </a>
-                        </div>
+                      <div class="video-actions" ng-repeat="action in actions">
+                        <button class="video-action btn btn-default round-icon-button">
+                          <span class="glyphicon glyphicon-{{action.icon}}"></span>
+                        </button>
                       </div>
                     </div>
                   </div>
