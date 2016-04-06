@@ -74,11 +74,11 @@ angular.module('mecanexAdminApp').factory('RandomData', ['chance', '$q', '$fdb',
         params = params ? params : {};
         var query = params.query ? params.query : {};
         var settings = params.settings ? params.settings : {
-          page: 0,
+          page: 1,
           limit: 10
         };
 
-        var results = collections.find(query, {$skip:settings.page, $limit:settings.limit});
+        var results = collections.find(query, {$skip:settings.page - 1, $limit:settings.limit});
         return {
           totalItems: results.$cursor.records,
           itemsPerPage: settings.limit,
@@ -90,11 +90,10 @@ angular.module('mecanexAdminApp').factory('RandomData', ['chance', '$q', '$fdb',
         params = params ? params : {};
         var query = params.query ? params.query : {};
         var settings = params.settings ? params.settings : {
-          page: 0,
+          page: 1,
           limit: 10
         };
-        var results = collectionVideos.find(query, {$page:settings.page, $limit:settings.limit});
-
+        var results = collectionVideos.find(query, {$page:settings.page - 1, $limit:settings.limit});
         return {
           totalItems: results.$cursor.records,
           itemsPerPage: settings.limit,
@@ -106,10 +105,10 @@ angular.module('mecanexAdminApp').factory('RandomData', ['chance', '$q', '$fdb',
         params = params ? params : {};
         var query = params.query ? params.query : {};
         var settings = params.settings ? params.settings : {
-          page: 0,
+          page: 1,
           limit: 10
         };
-        var results = externalVideos.find(query, {$page:settings.page, $limit:settings.limit});
+        var results = externalVideos.find(query, {$page:settings.page - 1, $limit:settings.limit});
         return {
           totalItems: results.$cursor.records,
           itemsPerPage: settings.limit,
