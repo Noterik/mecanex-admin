@@ -51,22 +51,22 @@ angular.module('mecanexAdminApp').factory('RandomData', ['chance', '$q', '$fdb',
     var db = $fdb
       .db('Mecanex');
 
-    var collections = db.collection('collections');
-    var collectionVideos = db.collection('collection-videos');
+    //var collections = db.collection('collections');
+    //var collectionVideos = db.collection('collection-videos');
     var externalVideos = db.collection('external-videos');
 
-    collections.insert(_.map(randomCollections, function(obj){
+    /*collections.insert(_.map(randomCollections, function(obj){
       return obj.collection;
-    }));
+    }));*/
 
-    var allVideos = [];
+    /*var allVideos = [];
     var mappedVideos = _.map(randomCollections, function(obj){
       return obj.videos;
     });
     for(var i = 0; i < mappedVideos.length; i++){
       allVideos = allVideos.concat(mappedVideos[i]);
-    }
-    collectionVideos.insert(allVideos);
+    }*/
+    //collectionVideos.insert(allVideos);
     externalVideos.insert(randomExternalVideos);
 
     return {

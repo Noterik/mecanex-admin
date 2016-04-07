@@ -20,7 +20,8 @@ angular
     'ui.bootstrap',
     'underscore',
     'angular.filter',
-    'forerunnerdb'
+    'forerunnerdb',
+    'xml'
   ])
   .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
 

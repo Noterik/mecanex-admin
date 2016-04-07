@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('mecanexAdminApp').factory('Fsxml',
-  function(){
+angular.module('mecanexAdminApp').factory('Fsxml', ['X2JS',
+  function(X2JS){
     return function(){
 
       function createDocument(){
@@ -26,8 +26,14 @@ angular.module('mecanexAdminApp').factory('Fsxml',
           }
 
           return doc;
+        },
+        parseFromFsxml: function(object) {
+          var x2js = new X2JS();
+          var json = x2js.xml_str2json(object);
+          console.log(json);
+          return json;
         }
       };
     };
   }
-);
+]);

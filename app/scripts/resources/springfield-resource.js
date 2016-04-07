@@ -30,6 +30,17 @@ angular.module('mecanexAdminApp').factory('SpringfieldResource', ['Fsxml', '$res
                 'Accept': 'text/xml',
                 'Content-Type': 'text/xml;charset=utf-8'
               }
+            },
+            retrieve: {
+              method: 'GET',
+              transformResponse: function(data) {
+                var fsxml = new Fsxml();
+                return fsxml.parseFromFsxml(data);
+              },
+              headers: {
+                'Accept': 'text/xml',
+                'Content-Type': 'text/xml;charset=utf-8'
+              }
             }
           });
         }
