@@ -1,4 +1,4 @@
-<section class="videos">
+<section class="items">
   <div class="row">
     <div class="navbar navbar-default">
       <div class="col-sm-3">
@@ -14,7 +14,7 @@
       <div class="col-sm-6">
           <form class="text-center navbar-form navbar-input-group paging" role="pagination">
               <div class="form-group">
-                <uib-pagination max-size="maxPages" boundary-links="true" boundary-link-numbers="true" rotate="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" ng-change="pageChanged()"></uib-pagination>
+                <uib-pagination max-size="maxPages" ng-hide="totalItems < limit" boundary-links="true" boundary-link-numbers="true" rotate="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" ng-change="pageChanged()"></uib-pagination>
               </div>
           </form>
       </div>
@@ -24,25 +24,25 @@
   </div>
 
   <div class="row">
-    <div class="videos-list col-sm-12">
-      <div class="video row" ng-repeat="video in items">
+    <div class="items-list col-sm-12">
+      <div class="item row" ng-repeat="video in items">
         <div class="container-fluid">
           <div class="col-sm-12">
             <div class="row">
-              <div class="video-thumb">
+              <div class="item-thumb">
                 <img class="fill image-responsive" ng-src="{{video.img}}" alt="{{video.name}}" />
               </div>
-              <div class="video-information">
+              <div class="item-information">
                 <div class="row fill-height">
                     <div class="col-sm-8">
-                      <div class="video-descriptions">
+                      <div class="item-descriptions">
                         <h3>{{video.name}}</h3>
                         <span>{{video.description}}</span>
                       </div>
                     </div>
                     <div class="col-sm-4 fill-height">
-                      <div class="video-actions" ng-repeat="action in actions">
-                        <button class="video-action btn btn-default round-icon-button">
+                      <div class="item-actions" ng-repeat="action in actions">
+                        <button class="item-action btn btn-default round-icon-button">
                           <span class="glyphicon glyphicon-{{action.icon}}"></span>
                         </button>
                       </div>
@@ -55,18 +55,19 @@
         </div>
       </div>
     </div>
-
-    <div class="navbar navbar-default">
-      <div class="col-sm-3">
-      </div>
-      <div class="col-sm-6">
-          <form class="text-center navbar-form navbar-input-group paging" role="pagination">
-              <div class="form-group">
-                <uib-pagination max-size="maxPages" boundary-links="true" boundary-link-numbers="true" rotate="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" ng-change="pageChanged()"></uib-pagination>
-              </div>
-          </form>
-      </div>
-      <div class="col-sm-3">
+    <div class="row">
+      <div class="navbar navbar-default">
+        <div class="col-sm-3">
+        </div>
+        <div class="col-sm-6">
+            <form class="text-center navbar-form navbar-input-group paging" role="pagination">
+                <div class="form-group">
+                  <uib-pagination max-size="maxPages" ng-hide="totalItems < limit" boundary-links="true" boundary-link-numbers="true" rotate="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" ng-change="pageChanged()"></uib-pagination>
+                </div>
+            </form>
+        </div>
+        <div class="col-sm-3">
+        </div>
       </div>
     </div>
   </div>

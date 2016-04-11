@@ -1,27 +1,37 @@
 'use strict';
 
-angular.module('mecanexAdminApp').factory('RandomData', ['chance', '$q', '$fdb', '_',
-  function(chance, $q, $fdb, _) {
+angular.module('mecanexAdminApp').factory('RandomData', ['chance', '$q', '$fdb', '_', 'INGEST_STEPS', 'VIDEO_CATEGORIES',
+  function(chance, $q, $fdb, _, INGEST_STEPS, VIDEO_CATEGORIES) {
 
-    var amountCols = chance.integer({min: 3, max: 12});
+    var amountCols = chance.integer({min: 20, max: 50});
     var amountExternalVideos = chance.integer({min: 50, max: 150});
     var db = $fdb.db('Mecanex');
     var collections = db.collection('random-collections');
     var collectionVideos = db.collection('random-collection-videos');
     var externalVideos = db.collection('external-videos');
 
-    function randomCollectionVideo(){
-      return {
-        _id: chance.guid(),
-        name: chance.sentence({words: chance.integer({min: 1, max: 5})}),
-        description: chance.sentence({words: chance.integer({min: 30, max: 100})}),
-        img: 'https://unsplash.it/320/180/?random&i=' + chance.integer({min: 10, max: 20})
+    var steps = _.values(INGEST_STEPS);
+    var categories = _.values(VIDEO_CATEGORIES);
+
+    function randomCollectionVideo(possibleCategories){
+      return function(){
+        return {
+          _id: chance.guid(),
+          name: chance.sentence({words: chance.integer({min: 1, max: 5})}),
+          description: chance.sentence({words: chance.integer({min: 30, max: 100})}),
+          img: 'https://unsplash.it/320/180/?random&i=' + chance.integer({min: 10, max: 20}),
+          categories: chance.pickset(possibleCategories, chance.integer({min: 1, max: possibleCategories.length})),
+          steps: steps.slice(0, chance.integer({min: 0, max: steps.length}))
+        };
       };
     }
 
     function randomCollection(){
       var videoLimit = chance.integer({min: 50, max: 150});
-      var videos = chance.n(randomCollectionVideo, videoLimit);
+      var categoryLimit = chance.integer({min: 1, max: 5});
+      var availableCategories = chance.pickset(categories, categoryLimit);
+
+      var videos = chance.n(randomCollectionVideo(availableCategories), videoLimit);
       var id = chance.guid();
 
       videos = _.map(videos, function(video){
@@ -29,13 +39,20 @@ angular.module('mecanexAdminApp').factory('RandomData', ['chance', '$q', '$fdb',
         return video;
       });
 
+      var colCategories = _.union.apply({}, _.map(videos, function(video){
+        return _.map(video.categories, function(cat){
+          return cat.name;
+        });
+      }));
+
       return {
         collection: {
           _id: id,
           name: chance.sentence({words: chance.integer({min: 1, max: 5})}),
           img: 'https://unsplash.it/320/180/?random&i=' + chance.integer({min: 10, max: 20}),
           description: chance.paragraph(),
-          amountVideos: videos.length
+          amountVideos: videos.length,
+          categories: colCategories
         },
         videos: videos
       };
@@ -76,8 +93,9 @@ angular.module('mecanexAdminApp').factory('RandomData', ['chance', '$q', '$fdb',
         };
 
         var results = collections.find(query, {$skip:settings.page - 1, $limit:settings.limit});
+        console.log(results);
         return {
-          totalItems: results.$cursor.records,
+          totalItems: results.$cursor.records ? results.$cursor.records : results.length,
           itemsPerPage: settings.limit,
           page: settings.page,
           items: results
@@ -92,7 +110,7 @@ angular.module('mecanexAdminApp').factory('RandomData', ['chance', '$q', '$fdb',
         };
         var results = collectionVideos.find(query, {$page:settings.page - 1, $limit:settings.limit});
         return {
-          totalItems: results.$cursor.records,
+          totalItems: results.$cursor.records ? results.$cursor.records : results.length,
           itemsPerPage: settings.limit,
           page: settings.page,
           items: results
@@ -107,7 +125,7 @@ angular.module('mecanexAdminApp').factory('RandomData', ['chance', '$q', '$fdb',
         };
         var results = externalVideos.find(query, {$page:settings.page - 1, $limit:settings.limit});
         return {
-          totalItems: results.$cursor.records,
+          totalItems: results.$cursor.records ? results.$cursor.records : results.length,
           itemsPerPage: settings.limit,
           page: settings.page,
           items: results

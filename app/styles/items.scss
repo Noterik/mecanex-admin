@@ -1,0 +1,111 @@
+@import "colors/default.scss";
+@import "mixins/aspect-ratio.scss";
+@import "sass-mediaqueries/_media-queries.scss";
+
+$default-item-row-height: 150px;
+$desktop-item-row-height: $default-item-row-height;
+$desktop-item-row-thumb-aspect-ratio: 16/9;
+$desktop-item-row-margin-bottom: 10px;
+
+.items{
+  position: relative;
+
+  .item-actions{
+    width: 100%;
+    height: 100%;
+    padding-right: 10px;
+
+    @include min-screen(1024px) {
+      height: 40px;
+    }
+    .round-icon-button{
+      margin-top: 5px;
+      position: relative;
+      color: $white;
+      background-color: $light-gray;
+      float: right;
+      height: 100%;
+      margin-left: 5px;
+
+      @include min-screen(1024px) {
+        width: 40px;
+      }
+
+      span.glyphicon{
+        font-size: 1vw;
+        color: $white;
+      }
+
+      span.svg-icon{
+        margin: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-size: 50% 50%;
+        background-position: center center;
+      }
+
+    }
+
+    .round-icon-button:hover{
+      background-color: $dark-gray;
+
+      span.glyphicon{
+        color: $blue;
+      }
+
+    }
+  }
+
+  .item{
+    position: relative;
+    overflow: hidden;
+    margin-bottom: $desktop-item-row-margin-bottom;
+    height: $default_item_row_height;
+
+    @include min-screen(1024px) {
+      height: $desktop_item_row_height;
+    }
+
+    .item-thumb{
+      float: left;
+
+      @include min-screen(1024px) {
+        height: $desktop_item_row_height;
+        width: $desktop_item_row_height * $desktop-item-row-thumb-aspect-ratio;
+      }
+
+      overflow: hidden;
+    }
+
+    .item-information{
+      height: $desktop_item_row_height;
+      background-color: $list-item-color;
+      width: auto;
+      overflow: hidden;
+
+      .item-descriptions{
+        h3{
+          margin-top: 0.5em;
+        }
+        padding-left: 0.5em;
+      }
+
+      .item-actions{
+        width: 100%;
+        padding-right: 30px;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        position: absolute;
+
+        .round-icon-button{
+          margin-top: 0;
+        }
+      }
+    }
+  }
+}

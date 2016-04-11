@@ -2,7 +2,7 @@
 
 angular.module('mecanexAdminApp')
   .controller('HeaderController', function($scope, Session, $log, $state) {
-    $scope.currentUser = Session.userId;
+    $scope.currentUser = Session.get('userId');
 
     $scope.status = {
       isopen: false

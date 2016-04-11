@@ -25,7 +25,7 @@ angular
   ])
   .config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function($stateProvider, $urlRouterProvider, USER_ROLES) {
 
-    $urlRouterProvider.otherwise('/login');
+    $urlRouterProvider.otherwise('/collections/list');
 
     $stateProvider
       .state('login', {
@@ -65,22 +65,28 @@ angular
         },
         data:{authorizedRoles: [USER_ROLES.all]}
       })
-      .state('pages.collections', {
+      .state('pages.list-collections', {
+        url: '/collections/list',
+        controller: 'CollectionsListCtrl',
+        templateUrl: 'views/collections.list.html',
+        data:{authorizedRoles: [USER_ROLES.admin, USER_ROLES.user]}
+      })
+      .state('pages.add-collection', {
         abstract: true,
-        url: '/collections',
+        url: '/collections/add',
         views: {
           '': {
-            templateUrl: 'views/collections.html'
+            templateUrl: 'views/collections.add.html'
           }
         },
-        authorizedRoles: [USER_ROLES.admin, USER_ROLES.user]
+        data:{authorizedRoles: [USER_ROLES.admin, USER_ROLES.user]}
       })
-      .state('pages.collections.default', {
+      .state('pages.add-collection.default', {
         url: '',
         views: {
           '': {
-            templateUrl: 'views/collections.list.html',
-            controller: 'CollectionsListCtrl'
+            templateUrl: 'views/collections.add.list.html',
+            controller: 'CollectionsCarouselCtrl'
           },
           'list': {
             templateUrl: 'views/videos.list.html',
@@ -89,6 +95,21 @@ angular
         },
         data:{authorizedRoles: [USER_ROLES.admin, USER_ROLES.user]}
       })
+      .state('pages.add-collection.other-collection', {
+        url: '/:colId',
+        views: {
+          '': {
+            templateUrl: 'views/collections.add.list.html',
+            controller: 'CollectionsCarouselCtrl'
+          },
+          'list': {
+            templateUrl: 'views/videos.list.html',
+            controller: 'VideosListCtrl'
+          }
+        },
+        data:{authorizedRoles: [USER_ROLES.admin, USER_ROLES.user]}
+      });
+      /*
       .state('pages.collections.list', {
         url: '/:colId',
         views: {
@@ -103,6 +124,7 @@ angular
         },
         data: {authorizedRoles: [USER_ROLES.admin, USER_ROLES.user]}
       });
+      */
   }])
   .run(function($rootScope, AUTH_EVENTS, AuthService, $state) {
     $rootScope.$on('$stateChangeStart', function(event, next) {
@@ -119,8 +141,6 @@ angular
           $state.go('login.default');
           $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
         }
-      }else{
-        console.log("ITS AUTHORIZED!");
       }
 
       /*

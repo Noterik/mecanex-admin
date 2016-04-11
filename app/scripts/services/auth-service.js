@@ -31,14 +31,14 @@ angular.module('mecanexAdminApp').factory('AuthService', function ($http, Sessio
   ];
 
   authService.login = function (credentials) {
-    console.log("CREDENTIALS" , credentials);
     var user = _.find(users, function(cUser){
       return cUser.username === credentials.username && cUser.password === credentials.password;
     });
 
     return $q(function(resolve, reject){
       if(user){
-        resolve(Session.create(chance.guid(), user.username, user.role, user.smithersId));
+        var session = Session.create(chance.guid(), user.username, user.role, user.smithersId);
+        resolve(session);
       }else{
         reject();
       }
@@ -46,7 +46,7 @@ angular.module('mecanexAdminApp').factory('AuthService', function ($http, Sessio
   };
 
   authService.isAuthenticated = function () {
-    return !!Session.userId;
+    return !!Session.get('userId');
   };
 
   authService.isAuthorized = function (authorizedRoles) {
@@ -54,11 +54,14 @@ angular.module('mecanexAdminApp').factory('AuthService', function ($http, Sessio
       authorizedRoles = [authorizedRoles];
     }
 
-    if(authorizedRoles.indexOf("*") !== -1){
+    console.log(Session);
+    console.log(Session.get('userRole'));
+
+    if(authorizedRoles.indexOf('*') !== -1){
       return true;
     }else{
-      console.log(authorizedRoles.indexOf(Session.userRole));
-      if(authorizedRoles.indexOf(Session.userRole) > 0){
+      console.log(authorizedRoles.indexOf(Session.get('userRole')));
+      if(authorizedRoles.indexOf(Session.get('userRole')) > 0){
         return true;
       }
     }

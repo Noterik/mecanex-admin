@@ -8,7 +8,7 @@
  * Controller of the mecanexAdminApp
  */
 angular.module('mecanexAdminApp')
-  .controller('CollectionsListCtrl', ['$scope', '$uibModal', 'Collections', function($scope, $uibModal, Collections) {
+  .controller('CollectionsCarouselCtrl', ['$scope', '$uibModal', 'Collections', function($scope, $uibModal, Collections) {
 
     $scope.cols = [];
     $scope.colsPerSlide = 4;

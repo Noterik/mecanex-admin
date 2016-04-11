@@ -7,7 +7,7 @@ angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb'
     var db = $fdb.db('Mecanex');
     var collections = db.collection('collections');
     var collectionVideos = db.collection('collection-videos');
-    var smithersUser = Session.smithersId;
+    var smithersUser = Session.get('smithersId');
 
     function loadCollections(){
       return $q(function(resolve){
@@ -22,6 +22,7 @@ angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb'
       var restructuredCollections = [];
       var allVideos = [];
       angular.forEach(results.fsxml.collection, function(val) {
+        console.log("VAL:  ", val);
         var videos = getVideos(val.video, val._id);
 
         restructuredCollections.push({
@@ -52,7 +53,9 @@ angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb'
     }
 
     function getCollections() {
-      return springfield.create('http://a1.noterik.com:8081/smithers2/domain/mecanex/user/' + smithersUser + '/collection').retrieve().$promise.then(function(response) {
+      var url = 'http://a1.noterik.com:8081/smithers2/domain/mecanex/user/' + smithersUser + '/collection';
+      console.log("URL: " + url);
+      return springfield.create(url).retrieve().$promise.then(function(response) {
         return response;
       });
     }
@@ -96,9 +99,10 @@ angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb'
         var deferred = $q.defer();
 
         loadedCollections.then(function(){
-          var results = collections.find(query, {$skip:settings.page, $limit:settings.limit});
+          var results = collections.find(query, {$page:settings.page - 1, $limit:settings.limit});
+          console.log(results);
           deferred.resolve({
-            totalItems: results.$cursor.records,
+            totalItems: results.$cursor.records ? results.$cursor.records : results.length,
             itemsPerPage: settings.limit,
             page: settings.page,
             items: results
@@ -118,7 +122,7 @@ angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb'
         loadedCollections.then(function(){
           var results = collectionVideos.find(query, {$page:settings.page - 1, $limit:settings.limit});
           deferred.resolve({
-            totalItems: results.$cursor.records,
+            totalItems: results.$cursor.records ? results.$cursor.records : results.length,
             itemsPerPage: settings.limit,
             page: settings.page,
             items: results

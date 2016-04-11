@@ -1,40 +1,79 @@
-<div class="row">
-  <div class="col-md-12 collections">
-    <div class="row">
-      <uib-carousel active="active" interval="myInterval" no-wrap="noWrapSlides">
-        <uib-slide ng-repeat="block in cols | chunkBy: 4 track by $index" index="$index">
-          <div class="collections-list">
-
-            <!-- The collections -->
-            <div class="collection col-sm-3" ng-repeat="col in block">
-              <div ng-if="col != null" class="collection-content sixteen-nine">
-                <div class="content">
-                  <div class="collection-label">
-                    {{col.name}}
-                  </div>
-                  <div class="collection-thumb">
-                    <a ui-sref="pages.collections.list({colId: col._id, slideIndex: $index})">
-                      <img ng-src="{{col.img}}" class="fill img-responsive" alt="{{col.amountVideos}}" />
-                    </a>
-                  </div>
-                  <div class="collection-counter">
-                    <span class="badge">{{col.amountVideos}}</span>
-                  </div>
-                </div>
+<section class="items">
+  <div class="row">
+    <div class="navbar navbar-default">
+      <div class="col-sm-3">
+        <form class="navbar-form navbar-input-group" role="search">
+          <div class="form-group">
+            <div class="input-group search">
+              <input type="text" class="form-control" placeholder="Search">
+              <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-sm-6">
+          <form class="text-center navbar-form navbar-input-group paging" role="pagination">
+              <div class="form-group">
+                <uib-pagination max-size="maxPages" ng-hide="totalItems <= limit" boundary-links="true" boundary-link-numbers="true" rotate="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" ng-change="pageChanged()"></uib-pagination>
               </div>
-              <div ng-if="col == null" class="collection-content sixteen-nine">
-                <div class="content">
-                  <div class="collection-thumb">
-                      <button class="btn btn-default round-icon-button" ng-click="newCollectionDialog()">
-                        <span class="glyphicon glyphicon-plus"></span>
-                      </button>
+          </form>
+      </div>
+      <div class="col-sm-3">
+        <div class="item-actions">
+          <button ng-repeat="action in actions" class="item-action btn btn-default round-icon-button">
+            <span class="{{action.iconClass}}"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="items-list col-sm-12">
+      <div class="item row" ng-repeat="col in items">
+        <div class="container-fluid">
+          <div class="col-sm-12">
+            <div class="row">
+              <div class="item-thumb">
+                <img class="fill image-responsive" ng-src="{{col.img}}" alt="{{col.name}}" />
+              </div>
+              <div class="item-information">
+                <div class="row fill-height">
+                    <div class="col-sm-8">
+                      <div class="item-descriptions">
+                        <h3>{{col.name}}</h3>
+                        <span>{{col.description}}</span>
+                      </div>
+                    </div>
+                    <div class="col-sm-4 fill-height">
+                      <div class="item-actions">
+                        <button ng-repeat="category in col.categories" class="item-action btn btn-default round-icon-button">
+                          <span class="svg-icon svg-icon-{{icons[category]}}"></span>
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </uib-slide>
-      </uib-carousel>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="navbar navbar-default">
+        <div class="col-sm-3">
+        </div>
+        <div class="col-sm-6">
+            <form class="text-center navbar-form navbar-input-group paging" role="pagination">
+                <div class="form-group">
+                  <uib-pagination max-size="maxPages" ng-hide="totalItems <= limit" boundary-links="true" boundary-link-numbers="true" rotate="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" ng-change="pageChanged()"></uib-pagination>
+                </div>
+            </form>
+        </div>
+        <div class="col-sm-3">
+        </div>
+      </div>
     </div>
   </div>
-</div>
+</section>

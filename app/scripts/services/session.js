@@ -1,16 +1,26 @@
 'use strict';
 
-angular.module('mecanexAdminApp').service('Session', function () {
-  this.create = function (sessionId, userId, userRole, smithersId) {
-    this.id = sessionId;
-    this.userId = userId;
-    this.userRole = userRole;
-    this.smithersId = smithersId;
-  };
-  this.destroy = function () {
-    this.id = null;
-    this.userId = null;
-    this.userRole = null;
-    this.smithersId = null;
+angular.module('mecanexAdminApp').service('Session', function ($cookies) {
+  var vars = {};
+
+  if($cookies.getObject('session')){
+      vars = $cookies.getObject('session');
+  }
+
+  return {
+    create: function(sessionId, userId, userRole, smithersId){
+      vars.sessionId = sessionId;
+      vars.userId = userId;
+      vars.userRole = userRole;
+      vars.smithersId = smithersId;
+      $cookies.putObject('session', vars);
+    },
+    destroy: function(){
+      vars = {};
+      $cookies.remove('session');
+    },
+    get: function(key){
+      return vars[key];
+    }
   };
 });
