@@ -1,12 +1,58 @@
 'use strict';
 
-angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb', 'SpringfieldResource', '_', '$rootScope',
-  function(chance, $q, $fdb, SpringfieldResource, _, $rootScope) {
-
+angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb', 'SpringfieldResource', '_', 'Session',
+  function(chance, $q, $fdb, SpringfieldResource, _, Session) {
+    console.log('Collections resource!');
     var springfield = new SpringfieldResource();
+    var db = $fdb.db('Mecanex');
+    var collections = db.collection('collections');
+    var collectionVideos = db.collection('collection-videos');
+    var smithersUser = Session.smithersId;
+
+    function loadCollections(){
+      return $q(function(resolve){
+        getCollections().then(function(results){
+          parseCollections(results);
+          resolve();
+        });
+      });
+    }
+
+    function parseCollections(results){
+      var restructuredCollections = [];
+      var allVideos = [];
+      angular.forEach(results.fsxml.collection, function(val) {
+        var videos = getVideos(val.video, val._id);
+
+        restructuredCollections.push({
+          collection: {
+            _id: val._id,
+            name: val.properties.title,
+            description: val.properties.description,
+            amountVideos: videos.length,
+            img: 'https://unsplash.it/320/180/?random&i=' + chance.integer({min: 10, max: 20})
+          },
+          videos: videos
+        });
+
+
+      });
+
+      collections.insert(_.map(restructuredCollections, function(obj){
+        return obj.collection;
+      }));
+
+      var mappedVideos = _.map(restructuredCollections, function(obj){
+        return obj.videos;
+      });
+      for(var i = 0; i < mappedVideos.length; i++){
+        allVideos = allVideos.concat(mappedVideos[i]);
+      }
+      collectionVideos.insert(allVideos);
+    }
 
     function getCollections() {
-      return springfield.create('http://a1.noterik.com:8081/smithers2/domain/mecanex/user/pieter/collection').retrieve().$promise.then(function(response) {
+      return springfield.create('http://a1.noterik.com:8081/smithers2/domain/mecanex/user/' + smithersUser + '/collection').retrieve().$promise.then(function(response) {
         return response;
       });
     }
@@ -36,50 +82,7 @@ angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb'
       return videos;
     }
 
-    function parseCollections() {
-      var restructuredCollections = [];
-      var allVideos = [];
-
-      return getCollections().then(function(xml) {
-        collections = db.collection('collections');
-        collectionVideos = db.collection('collection-videos');
-
-        angular.forEach(xml.fsxml.collection, function(val) {
-          var videos = getVideos(val.video, val._id);
-
-          restructuredCollections.push({
-            collection: {
-              _id: val._id,
-              name: val.properties.title,
-              description: val.properties.description,
-              amountVideos: videos.length,
-              img: 'https://unsplash.it/320/180/?random&i=' + chance.integer({min: 10, max: 20})
-            },
-            videos: videos
-          });
-        });
-      }).then(function() {
-        collections.insert(_.map(restructuredCollections, function(obj){
-          return obj.collection;
-        }));
-      }).then(function() {
-        var mappedVideos = _.map(restructuredCollections, function(obj){
-          return obj.videos;
-        });
-        for(var i = 0; i < mappedVideos.length; i++){
-          allVideos = allVideos.concat(mappedVideos[i]);
-        }
-        collectionVideos.insert(allVideos);
-        console.log(collectionVideos);
-        $rootScope.collectionVideos = "loaded";
-      });
-    }
-
-    var db = $fdb.db('Mecanex');
-
-    var collections;
-    var collectionVideos;
-    $rootScope.collectionVideos;
+    var loadedCollections = loadCollections();
 
     return {
       query: function(params) {
@@ -92,27 +95,15 @@ angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb'
 
         var deferred = $q.defer();
 
-        if (collections !== undefined) {
+        loadedCollections.then(function(){
           var results = collections.find(query, {$skip:settings.page, $limit:settings.limit});
-
           deferred.resolve({
             totalItems: results.$cursor.records,
             itemsPerPage: settings.limit,
             page: settings.page,
             items: results
           });
-        } else {
-          parseCollections().then(function() {
-            var results = collections.find(query, {$skip:settings.page, $limit:settings.limit});
-            console.log(results);
-            deferred.resolve({
-              totalItems: results.$cursor.records,
-              itemsPerPage: settings.limit,
-              page: settings.page,
-              items: results
-            });
-          });
-        }
+        });
         return deferred.promise;
       },
       queryVideos: function(params) {
@@ -124,32 +115,15 @@ angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb'
         };
 
         var deferred = $q.defer();
-
-        if ($rootScope.collectionVideos !== undefined) {
+        loadedCollections.then(function(){
           var results = collectionVideos.find(query, {$page:settings.page - 1, $limit:settings.limit});
-
           deferred.resolve({
             totalItems: results.$cursor.records,
             itemsPerPage: settings.limit,
             page: settings.page,
             items: results
           });
-        } else {
-          console.log("Collection videos not yet loaded, watching untill loaded");
-          var stopWatching = $rootScope.$watch("collectionVideos", function(n, o) {
-            if (n === o) { return; }
-
-            var results = collectionVideos.find(query, {$page:settings.page - 1, $limit:settings.limit});
-
-            deferred.resolve({
-              totalItems: results.$cursor.records,
-              itemsPerPage: settings.limit,
-              page: settings.page,
-              items: results
-            });
-            stopWatching();
-          });
-        }
+        });
         return deferred.promise;
       }
     };

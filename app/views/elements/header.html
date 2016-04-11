@@ -1,9 +1,21 @@
-<div class="header">
+<div class="header" ng-controller="HeaderController">
   <div class="navbar navbar-default" role="navigation">
-    <div class="container">
+    <div class="container-fluid">
       <div class="navbar-header">
         <a class="navbar-brand" href="#/">MecanexAdmin</a>
       </div>
+
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right">
+          <li class="dropdown" uib-dropdown on-toggle="toggled(open)">
+            <a href class="dropdown-toggle" uib-dropdown-toggle>Welcome {{currentUser}} <span class="caret"></span></a>
+            <ul class="dropdown-menu" uib-dropdown-menu>
+              <li><a href ng-click="logout()">Log out</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
     </div>
+
   </div>
 </div>

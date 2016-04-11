@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
   </head>
-  <body ng-app="mecanexAdminApp">
+  <body ng-app="mecanexAdminApp" ng-controller="ApplicationController">
     <!--[if lte IE 8]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -62,12 +62,19 @@
         <script src="scripts/app.js"></script>
         <script src="scripts/util/chance.js"></script>
         <script src="scripts/util/fsxml.js"></script>
+        <script src="scripts/constants/auth-events.js"></script>
+        <script src="scripts/constants/user-roles.js"></script>
+        <script src="scripts/services/auth-service.js"></script>
+        <script src="scripts/services/session.js"></script>
         <script src="scripts/resources/springfield-resource.js"></script>
         <script src="scripts/resources/users-resource.js"></script>
         <script src="scripts/util/random-data.js"></script>
         <script src="scripts/resources/external-videos.js"></script>
         <script src="scripts/resources/collection-videos.js"></script>
         <script src="scripts/resources/collections.js"></script>
+        <script src="scripts/controllers/application-controller.js"></script>
+        <script src="scripts/controllers/login-controller.js"></script>
+        <script src="scripts/controllers/header-controller.js"></script>
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/controllers/about.js"></script>
         <script src="scripts/controllers/collections-list-controller.js"></script>

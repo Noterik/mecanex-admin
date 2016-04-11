@@ -143,7 +143,7 @@ body {
 }
 
 /* Navbar styles */
-.navbar-default {
+.navbar-default{
   background-color: $blue;
   border-radius: 0;
   border: none;
@@ -151,6 +151,33 @@ body {
   .navbar-brand {
     color: $white;
   }
+
+  .navbar-nav{
+
+    li > a, li > a:hover, li > a:visited{
+      color: $white;
+    }
+
+    .dropdown-menu{
+      border: none;
+      border-radius: 0px;
+      background-color: $white;
+      color: $blue;
+
+      > li > a{
+        color: $blue;
+        background-color: $white;
+      }
+    }
+
+
+
+    .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus{
+      background-color: $blue;
+      color: $white;
+    }
+  }
+
 }
 
 /* Round icon button */
