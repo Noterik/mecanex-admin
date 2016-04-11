@@ -5,6 +5,10 @@ angular.module('mecanexAdminApp').factory('RandomData', ['chance', '$q', '$fdb',
 
     var amountCols = chance.integer({min: 3, max: 12});
     var amountExternalVideos = chance.integer({min: 50, max: 150});
+    var db = $fdb.db('Mecanex');
+    var collections = db.collection('random-collections');
+    var collectionVideos = db.collection('random-collection-videos');
+    var externalVideos = db.collection('external-videos');
 
     function randomCollectionVideo(){
       return {
@@ -48,25 +52,18 @@ angular.module('mecanexAdminApp').factory('RandomData', ['chance', '$q', '$fdb',
     var randomCollections = chance.n(randomCollection, amountCols);
     var randomExternalVideos = chance.n(randomExternalVideo, amountExternalVideos);
 
-    var db = $fdb
-      .db('Mecanex');
-
-    //var collections = db.collection('collections');
-    //var collectionVideos = db.collection('collection-videos');
-    var externalVideos = db.collection('external-videos');
-
-    /*collections.insert(_.map(randomCollections, function(obj){
+    collections.insert(_.map(randomCollections, function(obj){
       return obj.collection;
-    }));*/
+    }));
 
-    /*var allVideos = [];
+    var allVideos = [];
     var mappedVideos = _.map(randomCollections, function(obj){
       return obj.videos;
     });
     for(var i = 0; i < mappedVideos.length; i++){
       allVideos = allVideos.concat(mappedVideos[i]);
-    }*/
-    //collectionVideos.insert(allVideos);
+    }
+    collectionVideos.insert(allVideos);
     externalVideos.insert(randomExternalVideos);
 
     return {
