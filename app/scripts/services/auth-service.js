@@ -54,13 +54,9 @@ angular.module('mecanexAdminApp').factory('AuthService', function ($http, Sessio
       authorizedRoles = [authorizedRoles];
     }
 
-    console.log(Session);
-    console.log(Session.get('userRole'));
-
     if(authorizedRoles.indexOf('*') !== -1){
       return true;
     }else{
-      console.log(authorizedRoles.indexOf(Session.get('userRole')));
       if(authorizedRoles.indexOf(Session.get('userRole')) > 0){
         return true;
       }

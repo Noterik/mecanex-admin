@@ -21,18 +21,20 @@ angular.module('mecanexAdminApp')
     $scope.selectedVideoId = null;
 
     var Videos = $scope.col ? ColVideos : ExternalVideos;
-    var query = $scope.col ? {colId: $scope.col} : {};
+    var query = $scope.col ? {
+      colId: $scope.col
+    } : {};
 
     $scope.setPage = function(pageNo) {
       $scope.currentPage = pageNo;
 
       Videos.query({
         query: query,
-        settings:{
+        settings: {
           page: $scope.currentPage,
           limit: $scope.limit
         }
-      }).then(function(results){
+      }).then(function(results) {
         $scope.totalItems = results.totalItems;
         $scope.currentPage = results.page;
         $scope.items = results.items;
@@ -43,10 +45,10 @@ angular.module('mecanexAdminApp')
       $scope.setPage($scope.currentPage);
     };
 
-    $scope.playVideo = function(videoId){
+    $scope.playVideo = function(videoId) {
       $scope.selectedVideoId = videoId;
 
-      springfield.create('http://a1.noterik.com:8081/smithers2'+$scope.items[videoId].refer).retrieve().$promise.then(function(response) {
+      springfield.create('http://a1.noterik.com:8081/smithers2' + $scope.items[videoId].refer).retrieve().$promise.then(function(response) {
         handleVideo(response, $scope.items[videoId].refer).then(function(response) {
           $scope.videoUri = response.videoUri;
           $uibModal.open({
@@ -73,22 +75,22 @@ angular.module('mecanexAdminApp')
       var mount = xml.fsxml.video.rawvideo.properties.mount;
       var rawId = xml.fsxml.video.rawvideo._id;
       var extension = xml.fsxml.video.rawvideo.properties.extension;
-      if (mount.indexOf(",") >= 0) {
-        mount = mount.substring(0, mount.indexOf(","));
+      if (mount.indexOf(',') >= 0) {
+        mount = mount.substring(0, mount.indexOf(','));
       }
-      if (mount.indexOf("http") === -1) {
-        mount = "http://"+mount+".noterik.com/progressive/"+mount+videoId+"/rawvideo/"+rawId+"/raw."+extension;
+      if (mount.indexOf('http') === -1) {
+        mount = 'http://' + mount + '.noterik.com/progressive/' + mount + videoId + '/rawvideo/' + rawId + '/raw.' + extension;
       }
-      mount = mount.replace("mecanex", "euscreenxl");
-      mount = mount.replace("luce", "eu_luce");
+      mount = mount.replace('mecanex', 'euscreenxl');
+      mount = mount.replace('luce', 'eu_luce');
 
-      var videoFile = mount.substring(mount.indexOf("progressive")+11);
+      var videoFile = mount.substring(mount.indexOf('progressive') + 11);
 
       var deferred = $q.defer();
 
-      springfield.create("http://mecanex.noterik.com/api/mdb"+videoFile).retrieve().$promise.then(function(response) {
+      springfield.create("http://mecanex.noterik.com/api/mdb" + videoFile).retrieve().$promise.then(function(response) {
         deferred.resolve({
-          videoUri: mount+"?ticket="+response.fsxml.properties.ticket
+          videoUri: mount + '?ticket=' + response.fsxml.properties.ticket
         });
       });
 

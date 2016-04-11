@@ -13,8 +13,6 @@ angular.module('mecanexAdminApp')
       return [cat.name, cat.icon];
     }));
 
-    console.log($scope.icons);
-
     var query = {};
 
     $scope.setPage = function(pageNo) {
@@ -27,7 +25,6 @@ angular.module('mecanexAdminApp')
           limit: $scope.limit
         }
       }).then(function(results){
-        console.log(results);
         $scope.totalItems = results.totalItems;
         $scope.currentPage = results.page;
         $scope.items = results.items;

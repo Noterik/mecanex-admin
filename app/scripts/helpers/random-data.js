@@ -87,14 +87,12 @@ angular.module('mecanexAdminApp').factory('RandomData', ['chance', '$q', '$fdb',
       queryCollections: function(params){
         params = params ? params : {};
         var query = params.query ? params.query : {};
-        console.log(params);
         var settings = params.settings ? params.settings : {
           page: 1,
           limit: 10
         };
 
         var results = collections.find(query, {$skip:settings.page - 1, $limit:settings.limit});
-        console.log(results);
         return {
           totalItems: results.$cursor.records ? results.$cursor.records : results.length,
           itemsPerPage: settings.limit,

@@ -1,12 +1,5 @@
 'use strict';
 
-/**
- * @ngdoc function
- * @name mecanexAdminApp.controller:MainCtrl
- * @description
- * # MainCtrl
- * Controller of the mecanexAdminApp
- */
 angular.module('mecanexAdminApp')
   .controller('PlayerDialogCtrl', function ($scope, $uibModalInstance) {
 

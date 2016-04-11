@@ -113,7 +113,6 @@ angular
   .run(function($rootScope, AUTH_EVENTS, AuthService, $state) {
     $rootScope.$on('$stateChangeStart', function(event, next) {
       var authorizedRoles = next.data.authorizedRoles;
-      console.log(authorizedRoles);
 
       if(!AuthService.isAuthorized(authorizedRoles)){
         event.preventDefault();

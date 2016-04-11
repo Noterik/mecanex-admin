@@ -2,7 +2,6 @@
 
 angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb', 'SpringfieldResource', '_', 'Session',
   function(chance, $q, $fdb, SpringfieldResource, _, Session) {
-    console.log('Collections resource!');
     var springfield = new SpringfieldResource();
     var db = $fdb.db('Mecanex');
     var collections = db.collection('collections');
@@ -22,7 +21,6 @@ angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb'
       var restructuredCollections = [];
       var allVideos = [];
       angular.forEach(results.fsxml.collection, function(val) {
-        console.log("VAL:  ", val);
         var videos = getVideos(val.video, val._id);
 
         restructuredCollections.push({
@@ -54,7 +52,6 @@ angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb'
 
     function getCollections() {
       var url = 'http://a1.noterik.com:8081/smithers2/domain/mecanex/user/' + smithersUser + '/collection';
-      console.log("URL: " + url);
       return springfield.create(url).retrieve().$promise.then(function(response) {
         return response;
       });
@@ -101,7 +98,6 @@ angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb'
 
         loadedCollections.then(function(){
           var results = collections.find(query, {$page:settings.page - 1, $limit:settings.limit});
-          console.log(results);
           deferred.resolve({
             totalItems: results.$cursor.records ? results.$cursor.records : results.length,
             itemsPerPage: settings.limit,
