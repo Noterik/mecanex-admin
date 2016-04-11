@@ -7,7 +7,7 @@
  * # MainCtrl
  * Controller of the mecanexAdminApp
  */
-angular.module('mecanexAdminApp')
+var app = angular.module('mecanexAdminApp')
   .controller('MainCtrl', function () {
     this.awesomeThings = [
       'HTML5 Boilerplate',
@@ -15,3 +15,9 @@ angular.module('mecanexAdminApp')
       'Karma'
     ];
   });
+
+app.filter('trusted', ['$sce', function ($sce) {
+    return function(url) {
+        return $sce.trustAsResourceUrl(url);
+    };
+}]);

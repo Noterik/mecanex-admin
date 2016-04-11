@@ -30,7 +30,7 @@ angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb'
             name: val.properties.title,
             description: val.properties.description,
             amountVideos: videos.length,
-            img: 'https://unsplash.it/320/180/?random&i=' + chance.integer({min: 10, max: 20})
+            img: videos.length > 0 ? videos[0].img : 'https://unsplash.it/320/180/?random&i=' + chance.integer({min: 10, max: 20})
           },
           videos: videos
         });
@@ -67,6 +67,7 @@ angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb'
             name: val.properties.TitleSet_TitleSetInEnglish_title,
             description: val.properties.summaryInEnglish,
             img: val.properties.screenshot,
+            refer: val._referid,
             colId: colId
           });
         });
