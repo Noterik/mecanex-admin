@@ -87,6 +87,7 @@ angular.module('mecanexAdminApp').factory('RandomData', ['chance', '$q', '$fdb',
       queryCollections: function(params){
         params = params ? params : {};
         var query = params.query ? params.query : {};
+        console.log(params);
         var settings = params.settings ? params.settings : {
           page: 1,
           limit: 10

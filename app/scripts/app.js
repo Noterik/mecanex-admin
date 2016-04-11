@@ -109,22 +109,6 @@ angular
         },
         data:{authorizedRoles: [USER_ROLES.admin, USER_ROLES.user]}
       });
-      /*
-      .state('pages.collections.list', {
-        url: '/:colId',
-        views: {
-          '': {
-            templateUrl: 'views/collections.list.html',
-            controller: 'CollectionsListCtrl'
-          },
-          'list': {
-            templateUrl: 'views/videos.list.html',
-            controller: 'VideosListCtrl'
-          }
-        },
-        data: {authorizedRoles: [USER_ROLES.admin, USER_ROLES.user]}
-      });
-      */
   }])
   .run(function($rootScope, AUTH_EVENTS, AuthService, $state) {
     $rootScope.$on('$stateChangeStart', function(event, next) {
@@ -142,18 +126,5 @@ angular
           $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
         }
       }
-
-      /*
-      if (!AuthService.isAuthorized(authorizedRoles)) {
-        event.preventDefault();
-        if (AuthService.isAuthenticated()) {
-          // user is not allowed
-          $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
-        } else {
-          // user is not logged in
-          $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
-        }
-      }
-      */
     });
   });

@@ -25,18 +25,18 @@
 
   <div class="row">
     <div class="items-list col-sm-12">
-      <div class="item row" ng-repeat="video in items">
+      <div class="item row" ng-repeat="(key,video) in items">
         <div class="container-fluid">
           <div class="col-sm-12">
             <div class="row">
-              <div class="item-thumb">
+              <div class="item-thumb" ng-click="playVideo(key)">
                 <img class="fill image-responsive" ng-src="{{video.img}}" alt="{{video.name}}" />
               </div>
               <div class="item-information">
                 <div class="row fill-height">
                     <div class="col-sm-8">
-                      <div class="item-descriptions">
-                        <h3>{{video.name}}</h3>
+                      <div class="video-descriptions">
+                        <h3 ng-click="playVideo(key)">{{video.name}}</h3>
                         <span>{{video.description}}</span>
                       </div>
                     </div>
