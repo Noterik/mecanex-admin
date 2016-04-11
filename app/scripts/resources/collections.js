@@ -20,7 +20,7 @@ angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb'
             _id: val._id,
             name: val.properties.TitleSet_TitleSetInEnglish_title,
             description: val.properties.summaryInEnglish,
-            img: 'https://unsplash.it/320/180/?random&i=' + chance.integer({min: 10, max: 20}),
+            img: val.properties.screenshot,
             colId: colId
           });
         });
@@ -29,7 +29,7 @@ angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb'
           _id: v._id,
           name: v.properties.TitleSet_TitleSetInEnglish_title,
           description: v.properties.summaryInEnglish,
-          img: 'https://unsplash.it/320/180/?random&i=' + chance.integer({min: 10, max: 20}),
+          img: v.properties.screenshot,
           colId: colId
         });
       }
@@ -53,7 +53,7 @@ angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb'
               name: val.properties.title,
               description: val.properties.description,
               amountVideos: videos.length,
-              img: 'https://unsplash.it/320/180/?random&i=' + chance.integer({min: 10, max: 20})
+              img: videos.length > 0 ? videos[0].img : 'https://unsplash.it/320/180/?random&i=' + chance.integer({min: 10, max: 20})
             },
             videos: videos
           });
