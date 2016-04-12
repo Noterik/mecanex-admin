@@ -46,9 +46,11 @@ angular.module('mecanexAdminApp')
     };
 
     $scope.playVideo = function(videoId) {
+      console.log(videoId);
+      console.log($scope.items);
       $scope.selectedVideoId = videoId;
 
-      springfield.create('http://a1.noterik.com:8081/smithers2' + $scope.items[videoId].refer).retrieve().$promise.then(function(response) {
+      springfield.create($scope.items[videoId].refer, 'bart', 1).retrieve().$promise.then(function(response) {
         handleVideo(response, $scope.items[videoId].refer).then(function(response) {
           $scope.videoUri = response.videoUri;
           $uibModal.open({
@@ -56,7 +58,8 @@ angular.module('mecanexAdminApp')
             templateUrl: 'views/player-dialog.html',
             controller: 'PlayerDialogCtrl',
             scope: $scope,
-            windowClass: 'app-modal-window'
+            windowClass: 'app-modal-window',
+            size: 'lg'
           });
         });
       });

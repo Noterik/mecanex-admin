@@ -2,9 +2,22 @@
 
 angular.module('mecanexAdminApp').factory('SpringfieldResource', ['Fsxml', '$resource',
   function(Fsxml, $resource) {
+
+    var baseUrl = "http://mecanex.noterik.com/bart/";
+    //default values
+    var start = 0;
+    var limit = -1;
+    var depth = 0;
+
     return function(){
       return{
-        create: function(url){
+        create: function(url, service, d, s, l) {
+          if (service === 'bart') {
+            depth = d === undefined ? depth : d;
+            start = s === undefined ? start : s;
+            limit = l === undefined ? limit : l;
+            url = baseUrl + url + '?start='+start+'&limit='+limit+'&depth='+depth;
+          }
           return $resource(url, {
             id: '@_id'
           }, {

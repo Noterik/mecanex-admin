@@ -9,4 +9,8 @@ angular.module('mecanexAdminApp')
     $scope.close = function() {
       $uibModalInstance.close();
     };
+
+    $scope.add = function() {
+      
+    };
   });

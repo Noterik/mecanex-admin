@@ -6,18 +6,22 @@ angular.module('mecanexAdminApp').factory('ExternalVideos', ['$q', '$fdb', 'Spri
     var springfield = new SpringfieldResource();
     var db = $fdb.db('Mecanex');
     var externalVideos = db.collection('external-videos');
+    var totalItems = 0;
+    var reposityUrl = '/domain/mecanex/user/luce/video/';
 
-    function loadExternalVideos(){
+    function loadExternalVideos(page, limit){
       return $q(function(resolve){
-        getExternalVideos().then(function(results){
-          parseExternalVideos(results);
-          resolve();
+        getExternalVideos(page*limit,limit).then(function(results){
+          var videos = parseExternalVideos(results);
+          resolve(
+            videos
+          );
         });
       });
     }
 
-    function getExternalVideos() {
-        return springfield.create('http://a1.noterik.com:8081/smithers2/domain/mecanex/user/luce/video').retrieve().$promise.then(function(response) {
+    function getExternalVideos(start, limit) {
+        return springfield.create(reposityUrl, 'bart', 1, start, limit).retrieve().$promise.then(function(response) {
         return response;
       });
     }
@@ -25,21 +29,25 @@ angular.module('mecanexAdminApp').factory('ExternalVideos', ['$q', '$fdb', 'Spri
     function parseExternalVideos(results) {
       var videos = [];
 
+      if (results.fsxml.properties.totalResultsAvailable !== totalItems) {
+        totalItems = results.fsxml.properties.totalResultsAvailable;
+      }
+
       angular.forEach(results.fsxml.video, function (val) {
         videos.push({
           _id: val._id,
           name: val.properties.TitleSet_TitleSetInEnglish_title,
           description: val.properties.summaryInEnglish,
           img: val.properties.screenshot,
-          refer: val._referid,
+          refer: reposityUrl+val._id,
           colId: -1
         });
       });
-      console.log(videos.length);
-      externalVideos.insert(videos);
+      //externalVideos.insert(videos);
+      return videos;
     }
 
-    var loadedExternalVideos = loadExternalVideos();
+    //var loadedExternalVideos = loadExternalVideos();
 
     return {
       query: function(params){
@@ -52,11 +60,11 @@ angular.module('mecanexAdminApp').factory('ExternalVideos', ['$q', '$fdb', 'Spri
 
         var deferred = $q.defer();
 
-        loadedExternalVideos.then(function(){
-          var results = externalVideos.find(query, {$skip:settings.page - 1, $limit:settings.limit});
-          console.log(results.$cursor.records);
+        loadExternalVideos(settings.page-1, settings.limit).then(function(results){
+          //var results = externalVideos.find(query, {$skip:(settings.page - 1) * settings.limit, $limit:settings.limit});
+
           deferred.resolve({
-            totalItems: results.$cursor.records,
+            totalItems: totalItems,
             itemsPerPage: settings.limit,
             page: settings.page,
             items: results

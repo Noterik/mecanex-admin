@@ -2,8 +2,11 @@
    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="close()">&times;</button>
   <h3 class="modal-title">{{playerDialogVideo.name}}</h3>
 </div>
-<div class="modal-body" layout="row"  layout-align="center start">
-  <video id="mecanexVideo" width="640" poster="{{playerDialogVideo.screenshot}}" height="360" controls="" autoplay="">
+<div class="modal-body">
+  <video id="mecanexVideo" width="864" poster="{{playerDialogVideo.screenshot}}" height="486" controls="" autoplay="">
     <source ng-src="{{videoUri | trusted}}" type="video/mp4">
   </video>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-primary" type="button" ng-click="ok()">Add</button>
 </div>

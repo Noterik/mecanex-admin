@@ -51,8 +51,8 @@ angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb'
     }
 
     function getCollections() {
-      var url = 'http://a1.noterik.com:8081/smithers2/domain/mecanex/user/' + smithersUser + '/collection';
-      return springfield.create(url).retrieve().$promise.then(function(response) {
+      var url = '/domain/mecanex/user/' + smithersUser + '/collection';
+      return springfield.create(url, 'bart', 2).retrieve().$promise.then(function(response) {
         return response;
       });
     }
@@ -77,6 +77,7 @@ angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb'
           name: v.properties.TitleSet_TitleSetInEnglish_title,
           description: v.properties.summaryInEnglish,
           img: v.properties.screenshot,
+          refer: v._referid,
           colId: colId
         });
       }
