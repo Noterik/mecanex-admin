@@ -60,8 +60,6 @@ angular.module('mecanexAdminApp')
           });
         });
       });
-
-
     };
 
     $scope.actions = [{
@@ -93,9 +91,6 @@ angular.module('mecanexAdminApp')
           videoUri: mount + '?ticket=' + response.fsxml.properties.ticket
         });
       });
-
       return deferred.promise;
-
     }
-
   }]);
