@@ -69,7 +69,7 @@ angular.module('mecanexAdminApp').factory('RandomData', ['chance', '$q', '$fdb',
     var randomCollections = chance.n(randomCollection, amountCols);
     var randomExternalVideos = chance.n(randomExternalVideo, amountExternalVideos);
 
-    /*collections.insert(_.map(randomCollections, function(obj){
+    collections.insert(_.map(randomCollections, function(obj){
       return obj.collection;
     }));
 
@@ -81,7 +81,7 @@ angular.module('mecanexAdminApp').factory('RandomData', ['chance', '$q', '$fdb',
       allVideos = allVideos.concat(mappedVideos[i]);
     }
     collectionVideos.insert(allVideos);
-    externalVideos.insert(randomExternalVideos);*/
+    externalVideos.insert(randomExternalVideos);
 
     return {
       queryCollections: function(params){
