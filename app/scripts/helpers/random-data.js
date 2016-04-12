@@ -52,7 +52,8 @@ angular.module('mecanexAdminApp').factory('RandomData', ['chance', '$q', '$fdb',
           img: 'https://unsplash.it/320/180/?random&i=' + chance.integer({min: 10, max: 20}),
           description: chance.paragraph(),
           amountVideos: videos.length,
-          categories: colCategories
+          categories: colCategories,
+          created: new Date()
         },
         videos: videos
       };
@@ -92,7 +93,7 @@ angular.module('mecanexAdminApp').factory('RandomData', ['chance', '$q', '$fdb',
           limit: 10
         };
 
-        var results = collections.find(query, {$skip:settings.page - 1, $limit:settings.limit});
+        var results = collections.find(query, {$page:settings.page - 1, $limit:settings.limit, $orderBy: {created: -1}});
         return {
           totalItems: results.$cursor.records ? results.$cursor.records : results.length,
           itemsPerPage: settings.limit,

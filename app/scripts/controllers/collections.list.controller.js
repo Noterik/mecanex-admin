@@ -8,12 +8,35 @@ angular.module('mecanexAdminApp')
     $scope.currentPage = 1;
     $scope.limit = 10;
     $scope.maxPages = 5;
+    $scope.formOpen = false;
+
+    $scope.newCollection = {};
+    $scope.newCollectionErr = null;
 
     $scope.icons = _.object(_.map(_.values(VIDEO_CATEGORIES), function(cat) {
       return [cat.name, cat.icon];
     }));
 
     var query = {};
+
+    $scope.toggleForm = function(){
+      $scope.formOpen = !$scope.formOpen;
+      if(!$scope.formOpen){
+        $scope.newCollectionErr = {};
+        $scope.newCollection = {};
+      }
+    };
+
+    $scope.submitForm = function(){
+      Collections.create($scope.newCollection).then(function(){
+        $scope.newCollection = {};
+        $scope.newCollectionErr = {};
+        $scope.toggleForm();
+        $scope.setPage(1);
+      },function(err){
+        $scope.newCollectionErr = err;
+      });
+    };
 
     $scope.setPage = function(pageNo) {
       $scope.currentPage = pageNo;
@@ -34,22 +57,6 @@ angular.module('mecanexAdminApp')
     $scope.pageChanged = function() {
       $scope.setPage($scope.currentPage);
     };
-
-    /*
-    $scope.actions = [{
-      description:'Annotation',
-      iconClass: 'svg-icon svg-icon-annotation'
-    },{
-      description: 'Enrichment',
-      iconClass: 'svg-icon svg-icon-enrichment'
-    },{
-      description: 'Editorial',
-      iconClass: 'svg-icon svg-icon-editorial'
-    },{
-      description: 'Advertisement',
-      iconClass: 'svg-icon svg-icon-advertisement'
-    }].reverse();
-    */
 
     $scope.setPage(1);
   }]);

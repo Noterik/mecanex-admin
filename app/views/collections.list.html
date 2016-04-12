@@ -30,6 +30,54 @@
 
   <div class="row">
     <div class="items-list col-sm-12">
+      <div class="add-item item row" ng-show="!formOpen">
+        <div class="container-fluid">
+          <div class="col-sm-12">
+            <div class="row contents">
+              <div class="item-thumb">
+                <a ng-click="toggleForm()" ><span class="svg-icon svg-icon-add-inverse"></span></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="add-item-form item row" ng-show="formOpen">
+        <div class="container-fluid">
+          <div class="col-sm-12">
+            <div class="row contents">
+              <div class="item-thumb">
+                <a ng-click="toggleForm()" ><span class="svg-icon svg-icon-add-inverse"></span></a>
+              </div>
+              <div class="item-information">
+                <div class="container-fluid">
+                  <div class="row">
+                      <form class="form-horizontal col-md-12" ng-submit="submitForm()">
+                          <div class="col-md-12">
+                            <div class="form-group" ng-class="{'has-warning':newCollectionErr.name}">
+                              <label for="collectionTitle">Title</label>
+                              <input type="text" class="form-control" id="newCollectionName" ng-model="newCollection.name">
+                              <span id="collectionNameHelp" class="help-block" ng-bind="newCollectionErr.name"></span>
+                            </div>
+                            <div class="form-group" ng-class="{'has-warning':newCollectionErr.description}">
+                              <label for="collectionDescription">Description</label>
+                              <textarea class="form-control" id="newCollectionDescription" ng-model="newCollection.description"></textarea>
+                              <span id="collectionDescriptionHelp" class="help-block" ng-bind="newCollectionErr.description"></span>
+                            </div>
+                            <div class="form-group pull-right">
+                              <button type="button" class="btn btn-warning" ng-click="toggleForm()">Cancel</button>
+                              <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                          </div>
+                      </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="item row" ng-repeat="col in items">
         <div class="container-fluid">
           <div class="col-sm-12">
