@@ -8,24 +8,27 @@
  * Controller of the mecanexAdminApp
  */
 angular.module('mecanexAdminApp')
-  .controller('CollectionsCarouselCtrl', ['$scope', '$uibModal', 'Collections', function($scope, $uibModal, Collections) {
+  .controller('CollectionsCarouselCtrl', ['$scope', '$uibModal', '$stateParams', 'Collections', function($scope, $uibModal, $stateParams, Collections) {
 
     $scope.cols = [];
     $scope.colsPerSlide = 4;
     $scope.curSlide = 0;
+    $scope.editCol = $stateParams.editColId;
+    $scope.editTitle = "";
 
     $scope.find = function(){
       Collections.query().then(function(collections){
         collections.items.unshift(null);
         $scope.cols = collections.items;
-      });
-    };
 
-    $scope.newCollectionDialog = function(){
-      $uibModal.open({
-        animation: true,
-        templateUrl: 'views/new-collection-dialog.html',
-        controller: 'NewCollectionDialogCtrl'
+        console.log(collections.items);
+
+        angular.forEach(collections.items, function (val) {
+          if (val !== null && val._id === $scope.editCol) {
+            $scope.editTitle = val.name;
+          }
+        });
+
       });
     };
 

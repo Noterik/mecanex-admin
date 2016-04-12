@@ -71,21 +71,21 @@ angular
         templateUrl: 'views/collections.list.html',
         data:{authorizedRoles: [USER_ROLES.admin, USER_ROLES.user]}
       })
-      .state('pages.add-collection', {
+      .state('pages.edit-collection', {
         abstract: true,
-        url: '/collections/add',
+        url: '/collections/edit/:editColId',
         views: {
           '': {
-            templateUrl: 'views/collections.add.html'
+            templateUrl: 'views/collections.edit.html'
           }
         },
         data:{authorizedRoles: [USER_ROLES.admin, USER_ROLES.user]}
       })
-      .state('pages.add-collection.default', {
+      .state('pages.edit-collection.default', {
         url: '',
         views: {
           '': {
-            templateUrl: 'views/collections.add.list.html',
+            templateUrl: 'views/collections.edit.list.html',
             controller: 'CollectionsCarouselCtrl'
           },
           'list': {
@@ -95,11 +95,11 @@ angular
         },
         data:{authorizedRoles: [USER_ROLES.admin, USER_ROLES.user]}
       })
-      .state('pages.add-collection.other-collection', {
-        url: '/:colId',
+      .state('pages.edit-collection.other-collection', {
+        url: '/other/:colId',
         views: {
           '': {
-            templateUrl: 'views/collections.add.list.html',
+            templateUrl: 'views/collections.edit.list.html',
             controller: 'CollectionsCarouselCtrl'
           },
           'list': {

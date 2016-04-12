@@ -18,12 +18,15 @@ angular.module('mecanexAdminApp')
     $scope.limit = 10;
     $scope.maxPages = 5;
     $scope.col = $stateParams.colId ? $stateParams.colId : null;
+    $scope.editCol = $stateParams.editColId;
     $scope.selectedVideoId = null;
 
-    var Videos = $scope.col ? ColVideos : ExternalVideos;
+    var Videos = $scope.col === 'repository' ? ExternalVideos :ColVideos;
     var query = $scope.col ? {
       colId: $scope.col
-    } : {};
+    } : {
+      colId: $scope.editCol
+    };
 
     $scope.setPage = function(pageNo) {
       $scope.currentPage = pageNo;
@@ -65,9 +68,12 @@ angular.module('mecanexAdminApp')
       });
     };
 
-    $scope.actions = [{
+    $scope.actions = $stateParams.colId ? [{
       description: 'Add to collection',
       icon: 'plus'
+    }] : [{
+      description: 'Remove from collection',
+      icon: 'minus'
     }];
 
     $scope.setPage(1);
