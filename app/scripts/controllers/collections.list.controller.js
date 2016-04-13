@@ -33,7 +33,6 @@ angular.module('mecanexAdminApp')
         $scope.newCollectionErr = {};
         $scope.toggleForm();
         $scope.setPage(1);
-        $state.transitionTo("pages.list-collections", $state.$current.params, { reload: true, inherit: true, notify: true });//reload
       },function(err){
         $scope.newCollectionErr = err;
       });

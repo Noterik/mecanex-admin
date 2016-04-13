@@ -115,7 +115,28 @@ angular
           }
         },
         data:{authorizedRoles: [USER_ROLES.admin, USER_ROLES.user]}
-      });
+      })
+      .state('pages.content-enrichments', {
+        url: '/collections/:colId/video/:vidId/content-enrichments',
+        views: {
+          '': {
+            templateUrl: 'views/content.enrichments.html',
+            controller: 'ContentEnrichmentsCtrl'
+          }
+        },
+        data:{authorizedRoles: [USER_ROLES.admin, USER_ROLES.user]}
+      })
+      .state('pages.editorial-tool', {
+        url: '/collections/:colId/video/:vidId/editorial-tool',
+        views: {
+          '': {
+            templateUrl: 'views/editorial.tool.html',
+            controller: 'EditorialToolCtrl'
+          }
+        },
+        data:{authorizedRoles: [USER_ROLES.admin, USER_ROLES.user]}
+      })
+      ;
   }])
   .run(function($rootScope, AUTH_EVENTS, AuthService, $state) {
     $rootScope.$on('$stateChangeStart', function(event, next) {

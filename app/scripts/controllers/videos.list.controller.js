@@ -8,8 +8,8 @@
  * Controller of the mecanexAdminApp
  */
 angular.module('mecanexAdminApp')
-  .controller('VideosListCtrl', ['$scope', '$q', '$uibModal', '$log', '$stateParams', '$state', 'CollectionVideos', 'ExternalVideos', 'SpringfieldResource', 'Session',
-  function($scope, $q, $uibModal, $log, $stateParams, $state, CollectionVideos, ExternalVideos, SpringfieldResource, Session) {
+  .controller('VideosListCtrl', ['$scope', '$q', '$uibModal', '$log', '$stateParams', 'CollectionVideos', 'ExternalVideos', 'SpringfieldResource', 'Session', 'Collections',
+  function($scope, $q, $uibModal, $log, $stateParams, CollectionVideos, ExternalVideos, SpringfieldResource, Session, Collections) {
     var springfield = new SpringfieldResource();
     var smithersUser = Session.get('smithersId');
 
@@ -82,18 +82,18 @@ angular.module('mecanexAdminApp')
 
     $scope.setPage(1);
 
-    $scope.addVideo = function(videoId) {
+    $scope.addVideo = function(videoId, id) {
       var url = '/domain/mecanex/user/' + smithersUser + '/collection/' + $scope.editCol + '/video';
       var attributes = {'attributes': [{'referid': videoId}]};
-      springfield.create(url, 'bart').save(attributes).$promise.then(function(){
-        $state.go("pages.edit-collection.default", {}, { reload: true, inherit: true, notify: true });
+      springfield.create(url, 'bart').save(attributes).$promise.then(function(response){
+        Collections.addVideoToCollection($scope.items[id], $scope.editCol);
       });
     };
 
     $scope.removeVideo = function(videoId) {
       var url = '/domain/mecanex/user/' + smithersUser + '/collection/' + $scope.editCol + '/video/' + videoId;
       springfield.create(url, 'bart').remove().$promise.then(function() {
-        $state.go("pages.edit-collection.default", {}, { reload: true, inherit: true, notify: true });
+        Collections.removeVideoFromCollection(videoId, $scope.editCol);
       });
     };
 

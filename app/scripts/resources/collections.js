@@ -1,12 +1,13 @@
 'use strict';
 
-angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb', 'SpringfieldResource', '_', 'Session',
-  function(chance, $q, $fdb, SpringfieldResource, _, Session) {
+angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb', '$state', 'SpringfieldResource', '_', 'Session',
+  function(chance, $q, $fdb, $state, SpringfieldResource, _, Session) {
     var springfield = new SpringfieldResource();
     var db = $fdb.db('Mecanex');
     var collections = db.collection('collections');
     var collectionVideos = db.collection('collection-videos');
     var smithersUser = Session.get('smithersId');
+    var loadedCollections;
 
     function loadCollections(){
       return $q(function(resolve){
@@ -86,7 +87,7 @@ angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb'
       return videos;
     }
 
-    var loadedCollections = loadCollections();
+    loadedCollections = loadCollections();
 
     return {
       query: function(params) {
@@ -118,12 +119,9 @@ angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb'
           limit: 10
         };
 
-        console.log("requesting"+params);
-
         var deferred = $q.defer();
         loadedCollections.then(function(){
           var results = collectionVideos.find(query, {$page:settings.page - 1, $limit:settings.limit});
-          console.log(results);
           deferred.resolve({
             totalItems: results.$cursor.records ? results.$cursor.records : results.length,
             itemsPerPage: settings.limit,
@@ -154,13 +152,56 @@ angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb'
             var url = '/domain/mecanex/user/' + smithersUser + '/collection';
               var properties = {'properties': [{'title': params.name}, {'description': params.description}]};
             springfield.create(url, 'bart').save(properties).$promise.then(function(response) {
-              var newUrl = response.status.properties.uri;
-              params._id = newUrl.substr(newUrl.lastIndexOf("/")+1);
-              params.amountVideos = 0;
-              resolve(params);
+              var uri = response.status.properties.uri;
+              var id = uri.substring(uri.lastIndexOf("/")+1);
+              collections.insert({
+                _id: id,
+                name: params.name,
+                description: params.description,
+                amountVideos: 0,
+                img: 'images/collections/no-thumb.png'
+              });
+              $state.go($state.current, {}, {reload: true, inherit: true, notify: true});
+              resolve();
             });
           }
         });
+      },
+      addVideoToCollection: function(item, editCollection) {
+        item.colId = editCollection;
+        delete item.$$hashKey;
+
+        db.collection('collections');
+        collectionVideos.insert(
+          item
+        );
+
+        collections.update({
+            _id: editCollection
+          }, {
+            $inc: {
+              amountVideos: 1
+            }
+        });
+        $state.go($state.current, {}, {reload: true, inherit: true, notify: true});
+      },
+      removeVideoFromCollection: function(videoId, editCollection) {
+        collectionVideos.remove({
+          $and: [{
+              _id: videoId
+          }, {
+              colId: editCollection
+          }]
+        });
+
+        collections.update({
+            _id: editCollection
+          }, {
+            $inc: {
+              amountVideos: -1
+            }
+        });
+        $state.go($state.current, {}, {reload: true, inherit: true, notify: true});
       }
     };
   }
