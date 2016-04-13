@@ -7,6 +7,14 @@ $desktop-item-row-height: $default-item-row-height;
 $desktop-item-row-thumb-aspect-ratio: 16/9;
 $desktop-item-row-margin-bottom: 10px;
 
+.popover{
+  .round-icon-button{
+    width: 40px;
+    height: 40px;
+    margin-top: 5px;
+  }
+}
+
 .items{
   position: relative;
 
@@ -19,41 +27,13 @@ $desktop-item-row-margin-bottom: 10px;
       height: 40px;
     }
     .round-icon-button{
-      margin-top: 5px;
       position: relative;
-      color: $white;
-      background-color: $light-gray;
       float: right;
       height: 100%;
       margin-left: 5px;
 
       @include min-screen(1024px) {
         width: 40px;
-      }
-
-      span.glyphicon{
-        font-size: 1vw;
-        color: $white;
-      }
-
-      span.svg-icon{
-        margin: 0;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-size: 50% 50%;
-        background-position: center center;
-      }
-
-    }
-
-    .round-icon-button:hover{
-      background-color: $dark-gray;
-
-      span.glyphicon{
-        color: $blue;
       }
 
     }

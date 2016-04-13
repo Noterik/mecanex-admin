@@ -60,7 +60,7 @@
                   </div>
                   <div class="col-sm-4 fill-height">
                     <div class="item-categories item-actions">
-                      <button class="item-action btn btn-default round-icon-button" uib-popover-template="'views/popovers/video-categories.html'" popover-title="Categories" popover-append-to-body="true" popover-placement="left">
+                      <button class="item-action btn btn-default round-icon-button" ng-click="setPopoverVideo(video)" uib-popover-template="'views/popovers/video-categories.html'" popover-title="Categories" popover-append-to-body="true" popover-placement="left" popover-trigger="outsideClick">
                         <span class="svg-icon svg-icon-add"></span>
                       </button>
                       <div class="seperator"></div>

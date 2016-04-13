@@ -11,6 +11,17 @@ angular.module('mecanexAdminApp')
     $scope.formOpen = false;
 
     $scope.categories = _.values(VIDEO_CATEGORIES);
+    $scope.popOverVideo = null;
+
+    $scope.setPopoverVideo = function(video){
+      $scope.popOverVideo = video;
+    };
+
+    $scope.toggleCategory = function(video, category){
+      console.log('VIDEO', video);
+      console.log('CATEGORY' , category);
+    };
+
     $scope.icons = _.object(_.map(_.values(VIDEO_CATEGORIES), function(cat) {
       return [cat.name, cat.icon];
     }));

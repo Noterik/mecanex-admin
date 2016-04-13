@@ -1,141 +1,15 @@
 /** Ingest steps icons **/
-.svg-icon.svg-icon-big-add{
-  background-image: url(../images/icons/add.svg);
-  background-repeat: no-repeat;
-}
-.svg-icon.svg-icon-add{
-  background-image: url(../images/icons/ingest-steps/add.svg);
-  background-repeat: no-repeat;
-}
-.svg-icon.svg-icon-add:hover{
-  background-image: url(../images/icons/ingest-steps/add-hover.svg);
-  background-repeat: no-repeat;
-}
-.svg-icon.svg-icon-annotation{
-  background-image: url(../images/icons/ingest-steps/annotation.svg);
-  background-repeat: no-repeat;
-}
-.svg-icon.svg-icon-annotation:hover{
-  background-image: url(../images/icons/ingest-steps/annotation-hover.svg);
-}
-.svg-icon.svg-icon-advertisement{
-  background-image: url(../images/icons/ingest-steps/cart.svg);
-  background-repeat: no-repeat;
-}
-.svg-icon.svg-icon-advertisement:hover{
-  background-image: url(../images/icons/ingest-steps/cart-hover.svg);
-}
-.svg-icon.svg-icon-editorial{
-  background-image: url(../images/icons/ingest-steps/editorial.svg);
-  background-repeat: no-repeat;
-}
-.svg-icon.svg-icon-editorial:hover{
-  background-image: url(../images/icons/ingest-steps/editorial-hover.svg);
-}
-.svg-icon.svg-icon-enrichment{
-  background-image: url(../images/icons/ingest-steps/enrichment.svg);
-  background-repeat: no-repeat;
-}
-.svg-icon.svg-icon-enrichment:hover{
-  background-image: url(../images/icons/ingest-steps/enrichment-hover.svg);
-}
+$availableIcons: "big-add", "add", "annotation", "cart", "editorial", "enrichment", "arts", "disasters", "education", "environment", "health", "holidays", "lifestyle", "media", "politics", "religion", "society", "transportation", "wars", "work";
 
-/** Category icons **/
-.svg-icon.svg-icon-arts{
-  background-image: url(../images/icons/categories/arts.svg);
-  background-repeat: no-repeat;
-}
-.svg-icon.svg-icon-arts:hover{
-  background-image: url(../images/icons/categories/arts-hover.svg);
-}
-.svg-icon.svg-icon-disasters{
-  background-image: url(../images/icons/categories/disasters.svg);
-  background-repeat: no-repeat;
-}
-.svg-icon.svg-icon-disasters:hover{
-  background-image: url(../images/icons/categories/disasters-hover.svg);
-}
-.svg-icon.svg-icon-education{
-  background-image: url(../images/icons/categories/education.svg);
-  background-repeat: no-repeat;
-}
-.svg-icon.svg-icon-education:hover{
-  background-image: url(../images/icons/categories/education-hover.svg);
-}
-.svg-icon.svg-icon-environment{
-  background-image: url(../images/icons/categories/environment.svg);
-  background-repeat: no-repeat;
-}
-.svg-icon.svg-icon-environment:hover{
-  background-image: url(../images/icons/categories/environment-hover.svg);
-}
-.svg-icon.svg-icon-health{
-  background-image: url(../images/icons/categories/health.svg);
-  background-repeat: no-repeat;
-}
-.svg-icon.svg-icon-health:hover{
-  background-image: url(../images/icons/categories/health-hover.svg);
-}
-.svg-icon.svg-icon-holidays{
-  background-image: url(../images/icons/categories/holidays.svg);
-  background-repeat: no-repeat;
-}
-.svg-icon.svg-icon-holidays:hover{
-  background-image: url(../images/icons/categories/holidays-hover.svg);
-}
-.svg-icon.svg-icon-lifestyle{
-  background-image: url(../images/icons/categories/lifestyle.svg);
-  background-repeat: no-repeat;
-}
-.svg-icon.svg-icon-lifestyle:hover{
-  background-image: url(../images/icons/categories/lifestyle-hover.svg);
-}
-.svg-icon.svg-icon-media{
-  background-image: url(../images/icons/categories/media.svg);
-  background-repeat: no-repeat;
-}
-.svg-icon.svg-icon-media:hover{
-  background-image: url(../images/icons/categories/media-hover.svg);
-}
-.svg-icon.svg-icon-politics{
-  background-image: url(../images/icons/categories/politics.svg);
-  background-repeat: no-repeat;
-}
-.svg-icon.svg-icon-politics:hover{
-  background-image: url(../images/icons/categories/politics-hover.svg);
-}
-.svg-icon.svg-icon-religion{
-  background-image: url(../images/icons/categories/religion.svg);
-  background-repeat: no-repeat;
-}
-.svg-icon.svg-icon-religion:hover{
-  background-image: url(../images/icons/categories/religion-hover.svg);
-}
-.svg-icon.svg-icon-society{
-  background-image: url(../images/icons/categories/society.svg);
-  background-repeat: no-repeat;
-}
-.svg-icon.svg-icon-society:hover{
-  background-image: url(../images/icons/categories/society-hover.svg);
-}
-.svg-icon.svg-icon-transportation{
-  background-image: url(../images/icons/categories/transportation.svg);
-  background-repeat: no-repeat;
-}
-.svg-icon.svg-icon-transportation:hover{
-  background-image: url(../images/icons/categories/transportation-hover.svg);
-}
-.svg-icon.svg-icon-wars{
-  background-image: url(../images/icons/categories/wars.svg);
-  background-repeat: no-repeat;
-}
-.svg-icon.svg-icon-wars:hover{
-  background-image: url(../images/icons/categories/wars-hover.svg);
-}
-.svg-icon.svg-icon-work{
-  background-image: url(../images/icons/categories/work.svg);
-  background-repeat: no-repeat;
-}
-.svg-icon.svg-icon-work:hover{
-  background-image: url(../images/icons/categories/work-hover.svg);
+.svg-icon{
+  @each $icon in $availableIcons{
+    &.svg-icon-#{$icon}{
+      background-image: url("../images/icons/#{$icon}.svg");
+      background-repeat: no-repeat;
+    }
+    &.svg-icon-#{$icon}:hover,&.svg-icon-#{$icon}.active{
+      background-image: url("../images/icons/#{$icon}-hover.svg");
+      background-repeat: no-repeat;
+    }
+  }
 }
