@@ -60,72 +60,117 @@ $desktop-item-row-margin-bottom: 10px;
   }
 
   .item{
+
+    .toggle{
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      z-index: 100;
+      a{
+        color: $dark-gray;
+      }
+      a:hover{
+        color: $blue;
+      }
+    }
+
     position: relative;
     overflow: hidden;
     margin-bottom: $desktop-item-row-margin-bottom;
-    height: $default_item_row_height;
+    height: auto;
 
-    @include min-screen(1024px) {
-      height: $desktop_item_row_height;
-    }
+    .basic-info{
+      z-index: 99;
+      .item-thumb{
+        float: left;
+        position: relative;
+        @include min-screen(1024px) {
+          height: $desktop_item_row_height;
+          width: $desktop_item_row_height * $desktop-item-row-thumb-aspect-ratio;
+        }
 
-    .item-thumb{
-      float: left;
-      position: relative;
-      @include min-screen(1024px) {
+        overflow: hidden;
+        .svg-icon{
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+          width: 100px;
+          height: 100px;
+          background-color: $white;
+          border-radius: 50%;
+          background-position: center center;
+          background-size: 100% 100%;
+        }
+      }
+
+      .item-information{
         height: $desktop_item_row_height;
-        width: $desktop_item_row_height * $desktop-item-row-thumb-aspect-ratio;
-      }
+        background-color: $list-item-color;
+        width: auto;
+        overflow: hidden;
 
-      overflow: hidden;
-      .svg-icon{
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        -webkit-transform: translate(-50%, -50%);
-        transform: translate(-50%, -50%);
-        width: 100px;
-        height: 100px;
-        background-color: $white;
-        border-radius: 50%;
-        background-position: center center;
-        background-size: 100% 100%;
+        .item-descriptions{
+          h3{
+            margin-top: 0.5em;
+          }
+          p{
+            $font-size: 1em;
+            $line-height: 1.4;
+            $lines-to-show: 5;
+            display: block; /* Fallback for non-webkit */
+            display: -webkit-box;
+            height: $font-size*$line-height*$lines-to-show; /* Fallback for non-webkit */
+            font-size: $font-size;
+            line-height: $line-height;
+            -webkit-line-clamp: $lines-to-show;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+          padding-left: 0.5em;
+        }
+
+        .item-actions{
+          width: 100%;
+          padding-right: 30px;
+          top: 50%;
+          left: 50%;
+          -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+          position: absolute;
+
+          .seperator{
+              float: right;
+              height: 100%;
+              width:2px;
+              margin-left: 5px;
+              border: 1px solid $dark-gray;
+          }
+
+          .round-icon-button{
+            margin-top: 0;
+          }
+        }
       }
     }
-
-    .item-information{
-      height: $desktop_item_row_height;
-      background-color: $list-item-color;
-      width: auto;
-      overflow: hidden;
-
-      .item-descriptions{
-        h3{
-          margin-top: 0.5em;
-        }
-        padding-left: 0.5em;
+    .extra-info{
+      z-index: 100;
+      .arrow{
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 0 25px 25px 25px;
+        border-color: transparent transparent $blue transparent;
+        left: 95%;
+        margin-top: -15px;
+        position: relative;
       }
-
-      .item-actions{
-        width: 100%;
-        padding-right: 30px;
-        top: 50%;
-        left: 50%;
-        -webkit-transform: translate(-50%, -50%);
-        transform: translate(-50%, -50%);
-        position: absolute;
-
-        .seperator{
-            float: right;
-            height: 100%;
-            width:2px;
-            margin-left: 5px;
-            border: 1px solid $dark-gray;
-        }
-
-        .round-icon-button{
-          margin-top: 0;
-        }
+      .contents{
+        padding-top: 10px;
+        background-color: $blue;
+        color: $white;
       }
     }
   }
@@ -137,7 +182,7 @@ $desktop-item-row-margin-bottom: 10px;
   }
   .add-item-form{
     height: 300px;
-    .contents{
+    .basic-info{
       background-color: $list-item-color;
       .item-information{
         height: 300px;

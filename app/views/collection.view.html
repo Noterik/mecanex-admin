@@ -1,0 +1,141 @@
+<section class="items">
+  <div class="row">
+    <div class="navbar navbar-default">
+      <div class="col-sm-3">
+        <form class="navbar-form navbar-input-group" role="search">
+          <div class="form-group">
+            <div class="input-group search">
+              <input type="text" class="form-control" placeholder="Search">
+              <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-sm-6">
+        <form class="text-center navbar-form navbar-input-group paging" role="pagination">
+          <div class="form-group">
+            <uib-pagination max-size="maxPages" ng-hide="totalItems <= limit" boundary-links="true" boundary-link-numbers="true" rotate="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;"
+              last-text="&raquo;" ng-change="pageChanged()"></uib-pagination>
+          </div>
+        </form>
+      </div>
+      <div class="col-sm-3">
+        <div class="item-actions">
+          <button ng-repeat="action in actions" class="item-action btn btn-default round-icon-button">
+            <span class="{{action.iconClass}}"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="items-list col-sm-12">
+      <div class="item row" ng-repeat="video in items track by $index">
+        <div class="container-fluid">
+          <div class="col-sm-12">
+            <div class="toggle">
+              <a href ng-click="video.expanded = video.expanded ? false : true">
+                <span class="glyphicon glyphicon-chevron-down"></span>
+              </a>
+            </div>
+            <div class="row basic-info">
+              <div class="item-thumb">
+                <img class="fill image-responsive" ng-src="{{video.img}}" alt="{{video.name}}" />
+              </div>
+              <div class="item-information">
+                <div class="row fill-height">
+                  <div class="col-sm-5">
+                    <div class="item-descriptions">
+                      <h3>{{video.name}}</h3>
+                      <p>{{video.description}}</p>
+                    </div>
+                  </div>
+                  <div class="col-sm-3 fill-height">
+                    <div class="item-actions">
+                      <button ng-repeat="step in video.steps | reverse" class="item-action btn btn-default round-icon-button">
+                        <span class="svg-icon svg-icon-{{step}}"></span>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="col-sm-4 fill-height">
+                    <div class="item-categories item-actions">
+                      <button class="item-action btn btn-default round-icon-button" uib-popover-template="'views/popovers/video-categories.html'" popover-title="Categories" popover-append-to-body="true" popover-placement="left">
+                        <span class="svg-icon svg-icon-add"></span>
+                      </button>
+                      <div class="seperator"></div>
+                      <button ng-repeat="category in video.categories" class="item-action btn btn-default round-icon-button">
+                        <span class="svg-icon svg-icon-{{icons[category.name]}}"></span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row extra-info" uib-collapse="!video.expanded">
+              <div class="arrow">
+              </div>
+              <div class="contents container-fluid">
+                <div class="row">
+                  <div class="col-md-1">
+                    <label for="video-{{video._id}}-name">Name:</label>
+                  </div>
+                  <div class="col-md-11">
+                    <span id="video-{{video._id}}-name" ng-bind="video.name"></span>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-1">
+                    <label for="video-{{video._id}}-duration">Duration:</label>
+                  </div>
+                  <div class="col-md-11">
+                    <span id="video-{{video._id}}-duration" ng-bind="video.duration | date: 'H:mm:ss'"></span>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-1">
+                    <label for="video-{{video._id}}-categories">Categories:</label>
+                  </div>
+                  <div class="col-md-11">
+                    <span id="video-{{video._id}}-categories" >{{video.categories | pluck: 'name' | joinBy: '; '}}</span>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-1">
+                    <label for="video-{{video._id}}-categories">Description:</label>
+                  </div>
+                  <div class="col-md-11">
+                    <p>{{video.description}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="navbar navbar-default">
+      <div class="col-sm-3">
+        &nbsp;
+      </div>
+      <div class="col-sm-6">
+        <form class="text-center navbar-form navbar-input-group paging" role="pagination">
+          <div class="form-group">
+            <uib-pagination max-size="maxPages" ng-hide="totalItems <= limit" boundary-links="true" boundary-link-numbers="true" rotate="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;"
+              last-text="&raquo;" ng-change="pageChanged()"></uib-pagination>
+          </div>
+        </form>
+      </div>
+      <div class="col-sm-3">
+        <div class="item-actions">
+          <button ng-repeat="action in actions" class="item-action btn btn-default round-icon-button">
+            <span class="{{action.iconClass}}"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

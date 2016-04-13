@@ -21,6 +21,7 @@ angular
     'underscore',
     'angular.filter',
     'forerunnerdb',
+    'angular-underscore',
     'xml'
   ])
   .config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function($stateProvider, $urlRouterProvider, USER_ROLES) {
@@ -69,6 +70,12 @@ angular
         url: '/collections/list',
         controller: 'CollectionsListCtrl',
         templateUrl: 'views/collections.list.html',
+        data:{authorizedRoles: [USER_ROLES.admin, USER_ROLES.user]}
+      })
+      .state('pages.view-collection', {
+        url: '/collections/view/:colId',
+        controller: 'CollectionViewCtrl',
+        templateUrl: 'views/collection.view.html',
         data:{authorizedRoles: [USER_ROLES.admin, USER_ROLES.user]}
       })
       .state('pages.edit-collection', {

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('mecanexAdminApp').factory('ColVideos', ['Collections', '$q',
+angular.module('mecanexAdminApp').factory('CollectionVideos', ['RandomCollections', '$q',
   function(Collections, $q) {
 
     return {

@@ -12,11 +12,12 @@
         </form>
       </div>
       <div class="col-sm-6">
-          <form class="text-center navbar-form navbar-input-group paging" role="pagination">
-              <div class="form-group">
-                <uib-pagination max-size="maxPages" ng-hide="totalItems <= limit" boundary-links="true" boundary-link-numbers="true" rotate="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" ng-change="pageChanged()"></uib-pagination>
-              </div>
-          </form>
+        <form class="text-center navbar-form navbar-input-group paging" role="pagination">
+          <div class="form-group">
+            <uib-pagination max-size="maxPages" ng-hide="totalItems <= limit" boundary-links="true" boundary-link-numbers="true" rotate="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;"
+              last-text="&raquo;" ng-change="pageChanged()"></uib-pagination>
+          </div>
+        </form>
       </div>
       <div class="col-sm-3">
         <div class="item-actions">
@@ -33,9 +34,11 @@
       <div class="add-item item row" ng-show="!formOpen">
         <div class="container-fluid">
           <div class="col-sm-12">
-            <div class="row contents">
+            <div class="row basic-info contents">
               <div class="item-thumb">
-                <a href ng-click="toggleForm()" ><span class="svg-icon svg-icon-big-add"></span></a>
+                <a href ng-click="toggleForm()">
+                  <span class="svg-icon svg-icon-big-add"></span>
+                </a>
               </div>
             </div>
           </div>
@@ -46,31 +49,33 @@
       <div class="add-item-form item row" ng-show="formOpen">
         <div class="container-fluid">
           <div class="col-sm-12">
-            <div class="row contents">
+            <div class="row basic-info">
               <div class="item-thumb">
-                <a href ng-click="toggleForm()" ><span class="svg-icon svg-icon-big-add"></span></a>
+                <a href ng-click="toggleForm()">
+                  <span class="svg-icon svg-icon-big-add"></span>
+                </a>
               </div>
               <div class="item-information">
                 <div class="container-fluid">
-                  <div class="row">
-                      <form class="form-horizontal col-md-12" ng-submit="submitForm()">
-                          <div class="col-md-12">
-                            <div class="form-group" ng-class="{'has-warning':newCollectionErr.name}">
-                              <label for="collectionTitle">Title</label>
-                              <input type="text" class="form-control" id="newCollectionName" ng-model="newCollection.name">
-                              <span id="collectionNameHelp" class="help-block" ng-bind="newCollectionErr.name"></span>
-                            </div>
-                            <div class="form-group" ng-class="{'has-warning':newCollectionErr.description}">
-                              <label for="collectionDescription">Description</label>
-                              <textarea class="form-control" id="newCollectionDescription" ng-model="newCollection.description"></textarea>
-                              <span id="collectionDescriptionHelp" class="help-block" ng-bind="newCollectionErr.description"></span>
-                            </div>
-                            <div class="form-group pull-right">
-                              <button type="button" class="btn btn-warning" ng-click="toggleForm()">Cancel</button>
-                              <button type="submit" class="btn btn-primary">Submit</button>
-                            </div>
-                          </div>
-                      </form>
+                  <div class="row contents">
+                    <form class="form-horizontal col-md-12" ng-submit="submitForm()">
+                      <div class="col-md-12">
+                        <div class="form-group" ng-class="{'has-warning':newCollectionErr.name}">
+                          <label for="collectionTitle">Title</label>
+                          <input type="text" class="form-control" id="newCollectionName" ng-model="newCollection.name">
+                          <span id="collectionNameHelp" class="help-block" ng-bind="newCollectionErr.name"></span>
+                        </div>
+                        <div class="form-group" ng-class="{'has-warning':newCollectionErr.description}">
+                          <label for="collectionDescription">Description</label>
+                          <textarea class="form-control" id="newCollectionDescription" ng-model="newCollection.description"></textarea>
+                          <span id="collectionDescriptionHelp" class="help-block" ng-bind="newCollectionErr.description"></span>
+                        </div>
+                        <div class="form-group pull-right">
+                          <button type="button" class="btn btn-warning" ng-click="toggleForm()">Cancel</button>
+                          <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                      </div>
+                    </form>
                   </div>
                 </div>
               </div>
@@ -80,56 +85,57 @@
       </div>
       <!-- End Add Item form -->
 
-      <a ui-sref="pages.view-collection.default({editColId:col._id})" ng-repeat="col in items">
-        <div class="item row">
-          <div class="container-fluid">
-            <div class="col-sm-12">
-              <div class="row">
+      <div class="item row" ng-repeat="col in items">
+        <div class="container-fluid">
+          <div class="col-sm-12">
+            <div class="row basic-info">
+              <a ui-sref="pages.view-collection({colId:col._id})">
                 <div class="item-thumb">
                   <img class="fill image-responsive" ng-src="{{col.img}}" alt="{{col.name}}" />
                 </div>
-                <div class="item-information">
-                  <div class="row fill-height">
-                      <div class="col-sm-8">
-                        <div class="item-descriptions">
-                          <h3>{{col.name}}</h3>
-                          <span>{{col.description}}</span>
-                        </div>
-                      </div>
-                      <div class="col-sm-4 fill-height">
-                        <div class="item-actions">
-                          <button ui-sref="pages.edit-collection.default({editColId:col._id})" class="item-action btn btn-default round-icon-button">
-                              <span class="svg-icon svg-icon-add"></span>
-                          </button>
-                          <div class="seperator"></div>
-                          <button ng-repeat="category in col.categories" class="item-action btn btn-default round-icon-button">
-                            <span class="svg-icon svg-icon-{{icons[category]}}"></span>
-                          </button>
-                        </div>
-                      </div>
+              </a>
+              <div class="item-information">
+                <div class="row fill-height">
+                  <div class="col-sm-8">
+                    <div class="item-descriptions">
+                      <h3>{{col.name}}</h3>
+                      <span>{{col.description}}</span>
+                    </div>
+                  </div>
+                  <div class="col-sm-4 fill-height">
+                    <div class="item-actions">
+                      <button ui-sref="pages.edit-collection.default({editColId:col._id})" class="item-action btn btn-default round-icon-button">
+                        <span class="svg-icon svg-icon-add"></span>
+                      </button>
+                      <div class="seperator"></div>
+                      <button ng-repeat="category in col.categories" class="item-action btn btn-default round-icon-button">
+                        <span class="svg-icon svg-icon-{{icons[category]}}"></span>
+                      </button>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </a>
-      </div>
-    </div>
-    <div class="row">
-      <div class="navbar navbar-default">
-        <div class="col-sm-3">
-        </div>
-        <div class="col-sm-6">
-            <form class="text-center navbar-form navbar-input-group paging" role="pagination">
-                <div class="form-group">
-                  <uib-pagination max-size="maxPages" ng-hide="totalItems <= limit" boundary-links="true" boundary-link-numbers="true" rotate="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" ng-change="pageChanged()"></uib-pagination>
-                </div>
-            </form>
-        </div>
-        <div class="col-sm-3">
         </div>
       </div>
     </div>
+  </div>
+  <div class="row">
+    <div class="navbar navbar-default">
+      <div class="col-sm-3">
+      </div>
+      <div class="col-sm-6">
+        <form class="text-center navbar-form navbar-input-group paging" role="pagination">
+          <div class="form-group">
+            <uib-pagination max-size="maxPages" ng-hide="totalItems <= limit" boundary-links="true" boundary-link-numbers="true" rotate="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;"
+              last-text="&raquo;" ng-change="pageChanged()"></uib-pagination>
+          </div>
+        </form>
+      </div>
+      <div class="col-sm-3">
+      </div>
+    </div>
+  </div>
   </div>
 </section>

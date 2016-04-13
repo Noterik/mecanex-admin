@@ -14,6 +14,8 @@ angular.module('mecanexAdminApp').factory('RandomData', ['chance', '$q', '$fdb',
     var categories = _.values(VIDEO_CATEGORIES);
 
     function randomCollectionVideo(possibleCategories){
+      var minDuration = 300000;
+      var maxDuration = 3600000;
       return function(){
         return {
           _id: chance.guid(),
@@ -21,7 +23,8 @@ angular.module('mecanexAdminApp').factory('RandomData', ['chance', '$q', '$fdb',
           description: chance.sentence({words: chance.integer({min: 30, max: 100})}),
           img: 'https://unsplash.it/320/180/?random&i=' + chance.integer({min: 10, max: 20}),
           categories: chance.pickset(possibleCategories, chance.integer({min: 1, max: possibleCategories.length})),
-          steps: steps.slice(0, chance.integer({min: 0, max: steps.length}))
+          steps: steps.slice(0, chance.integer({min: 0, max: steps.length})),
+          duration: chance.integer({min: minDuration, max: maxDuration})
         };
       };
     }
@@ -63,7 +66,8 @@ angular.module('mecanexAdminApp').factory('RandomData', ['chance', '$q', '$fdb',
         return {
           name: chance.sentence({words: chance.integer({min: 1, max: 5})}),
           description: chance.sentence({words: chance.integer({min: 30, max: 100})}),
-          img: 'https://unsplash.it/320/180/?random&i=' + chance.integer({min: 10, max: 20})
+          img: 'https://unsplash.it/320/180/?random&i=' + chance.integer({min: 10, max: 20}),
+
         };
     }
 

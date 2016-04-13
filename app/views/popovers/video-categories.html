@@ -1,0 +1,9 @@
+<div class="container-fluid">
+  <div class="row" ng-repeat="block in categories | chunkBy: 2 track by $index" index="$index">
+    <div class="col-md-6" ng-repeat="category in block">
+      <button class="item-action btn btn-default round-icon-button">
+        <span class="svg-icon svg-icon-{{category.icon}}"></span>
+      </button>
+    </div>
+  </div>
+</div>
