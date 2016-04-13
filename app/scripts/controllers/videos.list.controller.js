@@ -8,8 +8,8 @@
  * Controller of the mecanexAdminApp
  */
 angular.module('mecanexAdminApp')
-  .controller('VideosListCtrl', ['$scope', '$q', '$uibModal', '$log', '$stateParams', 'ColVideos', 'ExternalVideos', 'SpringfieldResource', 'Session',
-  function($scope, $q, $uibModal, $log, $stateParams, ColVideos, ExternalVideos, SpringfieldResource, Session) {
+  .controller('VideosListCtrl', ['$scope', '$q', '$uibModal', '$log', '$stateParams', '$state', 'CollectionVideos', 'ExternalVideos', 'SpringfieldResource', 'Session',
+  function($scope, $q, $uibModal, $log, $stateParams, $state, CollectionVideos, ExternalVideos, SpringfieldResource, Session) {
     var springfield = new SpringfieldResource();
     var smithersUser = Session.get('smithersId');
 
@@ -24,7 +24,7 @@ angular.module('mecanexAdminApp')
     $scope.selectedVideoId = null;
     $scope.smithersUser = smithersUser;
 
-    var Videos = $scope.col === 'repository' ? ExternalVideos :ColVideos;
+    var Videos = $scope.col === 'repository' ? ExternalVideos :CollectionVideos;
     var query = $scope.col ? {
       colId: $scope.col
     } : {
@@ -85,12 +85,16 @@ angular.module('mecanexAdminApp')
     $scope.addVideo = function(videoId) {
       var url = '/domain/mecanex/user/' + smithersUser + '/collection/' + $scope.editCol + '/video';
       var attributes = {'attributes': [{'referid': videoId}]};
-      springfield.create(url, 'bart').save(attributes);
+      springfield.create(url, 'bart').save(attributes).$promise.then(function(){
+        $state.go("pages.edit-collection.default", {}, { reload: true, inherit: true, notify: true });
+      });
     };
 
     $scope.removeVideo = function(videoId) {
       var url = '/domain/mecanex/user/' + smithersUser + '/collection/' + $scope.editCol + '/video/' + videoId;
-      springfield.create(url, 'bart').remove();
+      springfield.create(url, 'bart').remove().$promise.then(function() {
+        $state.go("pages.edit-collection.default", {}, { reload: true, inherit: true, notify: true });
+      });
     };
 
     function handleVideo(xml, videoId) {

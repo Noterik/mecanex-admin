@@ -17,7 +17,7 @@ angular.module('mecanexAdminApp')
       springfield.create(url, 'bart').save(attributes);
     };
     $scope.delete = function(videoId) {
-      var url = '/domain/mecanex/user/' + smithersUser + '/collection/' + $scope.editCol + '/video/' + videoId;
+      var url = '/domain/mecanex/user/' + $scope.smithersUser + '/collection/' + $scope.editCol + '/video/' + videoId;
       springfield.create(url, 'bart').remove();
     };
   });

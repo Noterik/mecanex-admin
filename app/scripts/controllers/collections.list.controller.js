@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('mecanexAdminApp')
-  .controller('CollectionsListCtrl', ['$scope', 'RandomCollections', 'VIDEO_CATEGORIES', '_', function($scope, Collections, VIDEO_CATEGORIES, _) {
+  .controller('CollectionsListCtrl', ['$scope', '$state', 'Collections', 'VIDEO_CATEGORIES', '_', function($scope, $state, Collections, VIDEO_CATEGORIES, _) {
     $scope.items = [];
 
     $scope.totalItems = 0;
@@ -33,6 +33,7 @@ angular.module('mecanexAdminApp')
         $scope.newCollectionErr = {};
         $scope.toggleForm();
         $scope.setPage(1);
+        $state.transitionTo("pages.list-collections", $state.$current.params, { reload: true, inherit: true, notify: true });//reload
       },function(err){
         $scope.newCollectionErr = err;
       });

@@ -60,6 +60,8 @@ angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb'
     function getVideos(v, colId) {
       var videos = [];
 
+      if (v === undefined) { return videos; }
+
       if (angular.isArray(v)) {
         angular.forEach(v, function (val) {
           videos.push({
@@ -116,9 +118,12 @@ angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb'
           limit: 10
         };
 
+        console.log("requesting"+params);
+
         var deferred = $q.defer();
         loadedCollections.then(function(){
           var results = collectionVideos.find(query, {$page:settings.page - 1, $limit:settings.limit});
+          console.log(results);
           deferred.resolve({
             totalItems: results.$cursor.records ? results.$cursor.records : results.length,
             itemsPerPage: settings.limit,
@@ -127,6 +132,35 @@ angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb'
           });
         });
         return deferred.promise;
+      },
+      create: function(params) {
+        return $q(function(resolve, reject){
+          var hasError = false;
+          var errors = {
+
+          };
+          if(!params.name || params.name === ''){
+            hasError = true;
+            errors.name = 'Name is required!';
+          }
+
+          if(!params.description || params.description === ''){
+            hasError = true;
+            errors.description = 'Description is required!';
+          }
+          if(hasError){
+            reject(errors);
+          }else{
+            var url = '/domain/mecanex/user/' + smithersUser + '/collection';
+              var properties = {'properties': [{'title': params.name}, {'description': params.description}]};
+            springfield.create(url, 'bart').save(properties).$promise.then(function(response) {
+              var newUrl = response.status.properties.uri;
+              params._id = newUrl.substr(newUrl.lastIndexOf("/")+1);
+              params.amountVideos = 0;
+              resolve(params);
+            });
+          }
+        });
       }
     };
   }

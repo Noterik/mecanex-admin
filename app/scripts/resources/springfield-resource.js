@@ -27,6 +27,10 @@ angular.module('mecanexAdminApp').factory('SpringfieldResource', ['Fsxml', '$res
                 var fsxml = new Fsxml();
                 return fsxml.renderFromResource(data);
               },
+              transformResponse: function(data) {
+                var fsxml = new Fsxml();
+                return fsxml.parseFromFsxml(data);
+              },
               headers: {
                 'Accept': 'text/xml',
                 'Content-Type': 'text/xml;charset=utf-8'
@@ -38,6 +42,10 @@ angular.module('mecanexAdminApp').factory('SpringfieldResource', ['Fsxml', '$res
               transformRequest: function(data){
                 var fsxml = new Fsxml();
                 return fsxml.renderFromResource(data);
+              },
+              transformResponse: function(data) {
+                var fsxml = new Fsxml();
+                return fsxml.parseFromFsxml(data);
               },
               headers: {
                 'Accept': 'text/xml',
@@ -57,6 +65,10 @@ angular.module('mecanexAdminApp').factory('SpringfieldResource', ['Fsxml', '$res
             },
             remove: {
               method: 'DELETE',
+              transformResponse: function(data) {
+                var fsxml = new Fsxml();
+                return fsxml.parseFromFsxml(data);
+              },
               headers: {
                 'Accept': 'text/xml',
                 'Content-Type': 'text/xml;charset=utf-8'
