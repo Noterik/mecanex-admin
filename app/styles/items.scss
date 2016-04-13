@@ -115,6 +115,14 @@ $desktop-item-row-margin-bottom: 10px;
         transform: translate(-50%, -50%);
         position: absolute;
 
+        .seperator{
+            float: right;
+            height: 100%;
+            width:2px;
+            margin-left: 5px;
+            border: 1px solid $dark-gray;
+        }
+
         .round-icon-button{
           margin-top: 0;
         }

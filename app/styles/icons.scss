@@ -1,17 +1,13 @@
 /** Ingest steps icons **/
+.svg-icon.svg-icon-big-add{
+  background-image: url(../images/icons/add.svg);
+  background-repeat: no-repeat;
+}
 .svg-icon.svg-icon-add{
   background-image: url(../images/icons/ingest-steps/add.svg);
   background-repeat: no-repeat;
 }
 .svg-icon.svg-icon-add:hover{
-  background-image: url(../images/icons/ingest-steps/add-hover.svg);
-  background-repeat: no-repeat;
-}
-.svg-icon.svg-icon-add-inverse{
-  background-image: url(../images/icons/ingest-steps/add-hover.svg);
-  background-repeat: no-repeat;
-}
-.svg-icon.svg-icon-add-inverse:hover{
   background-image: url(../images/icons/ingest-steps/add-hover.svg);
   background-repeat: no-repeat;
 }

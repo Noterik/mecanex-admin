@@ -35,19 +35,20 @@
           <div class="col-sm-12">
             <div class="row contents">
               <div class="item-thumb">
-                <a ng-click="toggleForm()" ><span class="svg-icon svg-icon-add-inverse"></span></a>
+                <a href ng-click="toggleForm()" ><span class="svg-icon svg-icon-big-add"></span></a>
               </div>
             </div>
           </div>
         </div>
       </div>
 
+      <!-- Start Add Item form -->
       <div class="add-item-form item row" ng-show="formOpen">
         <div class="container-fluid">
           <div class="col-sm-12">
             <div class="row contents">
               <div class="item-thumb">
-                <a ng-click="toggleForm()" ><span class="svg-icon svg-icon-add-inverse"></span></a>
+                <a href ng-click="toggleForm()" ><span class="svg-icon svg-icon-big-add"></span></a>
               </div>
               <div class="item-information">
                 <div class="container-fluid">
@@ -77,27 +78,34 @@
           </div>
         </div>
       </div>
+      <!-- End Add Item form -->
 
-      <div class="item row" ng-repeat="col in items">
-        <div class="container-fluid">
-          <div class="col-sm-12">
-            <div class="row">
-              <div class="item-thumb">
-                <img class="fill image-responsive" ng-src="{{col.img}}" alt="{{col.name}}" />
-              </div>
-              <div class="item-information">
-                <div class="row fill-height">
-                    <div class="col-sm-8">
-                      <div class="item-descriptions">
-                        <h3>{{col.name}}</h3>
-                        <span>{{col.description}}</span>
+      <a ui-sref="pages.view-collection.default({editColId:col._id})" ng-repeat="col in items">
+        <div class="item row">
+          <div class="container-fluid">
+            <div class="col-sm-12">
+              <div class="row">
+                <div class="item-thumb">
+                  <img class="fill image-responsive" ng-src="{{col.img}}" alt="{{col.name}}" />
+                </div>
+                <div class="item-information">
+                  <div class="row fill-height">
+                      <div class="col-sm-8">
+                        <div class="item-descriptions">
+                          <h3>{{col.name}}</h3>
+                          <span>{{col.description}}</span>
+                        </div>
                       </div>
-                    </div>
-                    <div class="col-sm-4 fill-height">
-                      <div class="item-actions">
-                        <button ng-repeat="category in col.categories" class="item-action btn btn-default round-icon-button">
-                          <span class="svg-icon svg-icon-{{icons[category]}}"></span>
-                        </button>
+                      <div class="col-sm-4 fill-height">
+                        <div class="item-actions">
+                          <button ui-sref="pages.edit-collection.default({editColId:col._id})" class="item-action btn btn-default round-icon-button">
+                              <span class="svg-icon svg-icon-add"></span>
+                          </button>
+                          <div class="seperator"></div>
+                          <button ng-repeat="category in col.categories" class="item-action btn btn-default round-icon-button">
+                            <span class="svg-icon svg-icon-{{icons[category]}}"></span>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -105,7 +113,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </a>
       </div>
     </div>
     <div class="row">
