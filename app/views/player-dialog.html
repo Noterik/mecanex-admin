@@ -8,5 +8,6 @@
   </video>
 </div>
 <div class="modal-footer">
-  <button class="btn btn-primary" type="button" ng-click="ok()">Add</button>
+  <button ng-if="action == 'Add'" class="btn btn-primary" type="button" ng-click="add(playerDialogVideo.refer)">Add</button>
+  <button ng-if="action == 'Remove'" class="btn btn-primary" type="button" ng-click="delete(playerDialogVideo._id)">Delete</button>
 </div>

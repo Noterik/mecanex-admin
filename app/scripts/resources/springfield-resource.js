@@ -54,6 +54,13 @@ angular.module('mecanexAdminApp').factory('SpringfieldResource', ['Fsxml', '$res
                 'Accept': 'text/xml',
                 'Content-Type': 'text/xml;charset=utf-8'
               }
+            },
+            remove: {
+              method: 'DELETE',
+              headers: {
+                'Accept': 'text/xml',
+                'Content-Type': 'text/xml;charset=utf-8'
+              }
             }
           });
         }

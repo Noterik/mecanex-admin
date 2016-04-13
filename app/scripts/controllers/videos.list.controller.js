@@ -8,8 +8,10 @@
  * Controller of the mecanexAdminApp
  */
 angular.module('mecanexAdminApp')
-  .controller('VideosListCtrl', ['$scope', '$q', '$uibModal', '$log', '$stateParams', 'ColVideos', 'ExternalVideos', 'SpringfieldResource', function($scope, $q, $uibModal, $log, $stateParams, ColVideos, ExternalVideos, SpringfieldResource) {
+  .controller('VideosListCtrl', ['$scope', '$q', '$uibModal', '$log', '$stateParams', 'ColVideos', 'ExternalVideos', 'SpringfieldResource', 'Session',
+  function($scope, $q, $uibModal, $log, $stateParams, ColVideos, ExternalVideos, SpringfieldResource, Session) {
     var springfield = new SpringfieldResource();
+    var smithersUser = Session.get('smithersId');
 
     $scope.items = [];
 
@@ -20,6 +22,7 @@ angular.module('mecanexAdminApp')
     $scope.col = $stateParams.colId ? $stateParams.colId : null;
     $scope.editCol = $stateParams.editColId;
     $scope.selectedVideoId = null;
+    $scope.smithersUser = smithersUser;
 
     var Videos = $scope.col === 'repository' ? ExternalVideos :ColVideos;
     var query = $scope.col ? {
@@ -49,13 +52,12 @@ angular.module('mecanexAdminApp')
     };
 
     $scope.playVideo = function(videoId) {
-      console.log(videoId);
-      console.log($scope.items);
       $scope.selectedVideoId = videoId;
 
       springfield.create($scope.items[videoId].refer, 'bart', 1).retrieve().$promise.then(function(response) {
         handleVideo(response, $scope.items[videoId].refer).then(function(response) {
           $scope.videoUri = response.videoUri;
+          $scope.action = $stateParams.colId ? "Add" : "Remove";
           $uibModal.open({
             animation: true,
             templateUrl: 'views/player-dialog.html',
@@ -70,13 +72,26 @@ angular.module('mecanexAdminApp')
 
     $scope.actions = $stateParams.colId ? [{
       description: 'Add to collection',
+      action: 'addVideo',
       icon: 'plus'
     }] : [{
       description: 'Remove from collection',
+      action: 'removeVideo',
       icon: 'minus'
     }];
 
     $scope.setPage(1);
+
+    $scope.addVideo = function(videoId) {
+      var url = '/domain/mecanex/user/' + smithersUser + '/collection/' + $scope.editCol + '/video';
+      var attributes = {'attributes': [{'referid': videoId}]};
+      springfield.create(url, 'bart').save(attributes);
+    };
+
+    $scope.removeVideo = function(videoId) {
+      var url = '/domain/mecanex/user/' + smithersUser + '/collection/' + $scope.editCol + '/video/' + videoId;
+      springfield.create(url, 'bart').remove();
+    };
 
     function handleVideo(xml, videoId) {
       var mount = xml.fsxml.video.rawvideo.properties.mount;

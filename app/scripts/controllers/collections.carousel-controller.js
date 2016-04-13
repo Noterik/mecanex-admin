@@ -21,8 +21,6 @@ angular.module('mecanexAdminApp')
         collections.items.unshift(null);
         $scope.cols = collections.items;
 
-        console.log(collections.items);
-
         angular.forEach(collections.items, function (val) {
           if (val !== null && val._id === $scope.editCol) {
             $scope.editTitle = val.name;

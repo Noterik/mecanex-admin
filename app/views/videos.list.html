@@ -46,7 +46,10 @@
                     </div>
                     <div class="col-sm-4 fill-height">
                       <div class="item-actions" ng-repeat="action in actions">
-                        <button class="item-action btn btn-default round-icon-button">
+                        <button ng-if="action.action == 'addVideo'" class="item-action btn btn-default round-icon-button" ng-click="addVideo(video.refer)">
+                          <span class="glyphicon glyphicon-{{action.icon}}"></span>
+                        </button>
+                        <button ng-if="action.action == 'removeVideo'" class="item-action btn btn-default round-icon-button" ng-click="removeVideo(video._id)">
                           <span class="glyphicon glyphicon-{{action.icon}}"></span>
                         </button>
                       </div>
