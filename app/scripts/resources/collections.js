@@ -1,13 +1,16 @@
 'use strict';
 
-angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb', '$state', 'SpringfieldResource', '_', 'Session',
-  function(chance, $q, $fdb, $state, SpringfieldResource, _, Session) {
+angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb', '$state', 'SpringfieldResource', '_', 'Session', 'INGEST_STEPS', 'VIDEO_CATEGORIES',
+  function(chance, $q, $fdb, $state, SpringfieldResource, _, Session, INGEST_STEPS, VIDEO_CATEGORIES) {
     var springfield = new SpringfieldResource();
     var db = $fdb.db('Mecanex');
     var collections = db.collection('collections');
     var collectionVideos = db.collection('collection-videos');
     var smithersUser = Session.get('smithersId');
     var loadedCollections;
+
+    var steps = _.values(INGEST_STEPS);
+    var categories = _.values(VIDEO_CATEGORIES);
 
     function loadCollections(){
       return $q(function(resolve){
@@ -24,13 +27,21 @@ angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb'
       angular.forEach(results.fsxml.collection, function(val) {
         var videos = getVideos(val.video, val._id);
 
+        var colCategories = _.union.apply({}, _.map(videos, function(video){
+          return _.map(video.categories, function(cat){
+            return cat.name;
+          });
+        }));
+
         restructuredCollections.push({
           collection: {
             _id: val._id,
             name: val.properties.title,
             description: val.properties.description,
             amountVideos: videos.length,
-            img: videos.length > 0 ? videos[0].img : 'images/collections/no-thumb.png'
+            img: videos.length > 0 ? videos[0].img : 'images/collections/no-thumb.png',
+            categories: colCategories,
+            steps: steps.slice(0, chance.integer({min: 0, max: steps.length}))
           },
           videos: videos
         });
@@ -63,6 +74,10 @@ angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb'
 
       if (v === undefined) { return videos; }
 
+      var videoLimit = chance.integer({min: 50, max: 150});
+      var categoryLimit = chance.integer({min: 1, max: 5});
+      var availableCategories = chance.pickset(categories, categoryLimit);
+
       if (angular.isArray(v)) {
         angular.forEach(v, function (val) {
           videos.push({
@@ -71,6 +86,8 @@ angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb'
             description: val.properties.summaryInEnglish,
             img: val.properties.screenshot,
             refer: val._referid,
+            //categories: val.properties.categories !== undefined ? val.properties.categories : [],
+            categories: chance.pickset(availableCategories, chance.integer({min: 1, max: availableCategories.length})),
             colId: colId
           });
         });
@@ -81,6 +98,8 @@ angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb'
           description: v.properties.summaryInEnglish,
           img: v.properties.screenshot,
           refer: v._referid,
+          //categories: v.properties.categories !== undefined ? val.properties.categories : [],
+          categories: chance.pickset(availableCategories, chance.integer({min: 1, max: availableCategories.length})),
           colId: colId
         });
       }
