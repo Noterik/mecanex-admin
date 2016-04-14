@@ -13,3 +13,15 @@ $availableIcons: "big-add", "add", "annotation", "cart", "editorial", "enrichmen
     }
   }
 }
+.png-icon{
+  @each $icon in $availableIcons{
+    &.png-icon-#{$icon}{
+      background-image: url("../images/icons/#{$icon}.png");
+      background-repeat: no-repeat;
+    }
+    &.png-icon-#{$icon}:hover,&.svg-icon-#{$icon}.active{
+      background-image: url("../images/icons/#{$icon}-hover.png");
+      background-repeat: no-repeat;
+    }
+  }
+}
