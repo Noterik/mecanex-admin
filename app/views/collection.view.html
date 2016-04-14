@@ -31,7 +31,7 @@
 
   <div class="row">
     <div class="items-list col-sm-12">
-      <div class="item row" ng-repeat="video in items track by $index">
+      <div class="item row" ng-repeat="(key,video) in items track by $index">
         <div class="container-fluid">
           <div class="col-sm-12">
             <div class="toggle">
@@ -41,7 +41,9 @@
             </div>
             <div class="row basic-info">
               <div class="item-thumb">
-                <img class="fill image-responsive" ng-src="{{video.img}}" alt="{{video.name}}" />
+                <a href ng-click="playVideo($index)">
+                  <img class="fill image-responsive" ng-src="{{video.img}}" alt="{{video.name}}" />
+                </a>
               </div>
               <div class="item-information">
                 <div class="row fill-height">

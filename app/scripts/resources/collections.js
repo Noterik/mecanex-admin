@@ -86,8 +86,8 @@ angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb'
             description: val.properties.summaryInEnglish,
             img: val.properties.screenshot,
             refer: val._referid,
-            //categories: val.properties.categories !== undefined ? val.properties.categories : [],
             categories: chance.pickset(availableCategories, chance.integer({min: 1, max: availableCategories.length})),
+            duration: val.properties.TechnicalInformation_itemDuration,
             colId: colId
           });
         });
@@ -98,8 +98,8 @@ angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb'
           description: v.properties.summaryInEnglish,
           img: v.properties.screenshot,
           refer: v._referid,
-          //categories: v.properties.categories !== undefined ? val.properties.categories : [],
           categories: chance.pickset(availableCategories, chance.integer({min: 1, max: availableCategories.length})),
+          duration: v.properties.TechnicalInformation_itemDuration,
           colId: colId
         });
       }

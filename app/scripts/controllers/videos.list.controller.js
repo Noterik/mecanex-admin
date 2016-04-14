@@ -52,12 +52,12 @@ angular.module('mecanexAdminApp')
     };
 
     $scope.playVideo = function(videoId) {
+      console.log(videoId);
       $scope.selectedVideoId = videoId;
 
       springfield.create($scope.items[videoId].refer, 'bart', 1).retrieve().$promise.then(function(response) {
         handleVideo(response, $scope.items[videoId].refer).then(function(response) {
           $scope.videoUri = response.videoUri;
-          $scope.action = $stateParams.colId ? "Add" : "Remove";
           $uibModal.open({
             animation: true,
             templateUrl: 'views/player-dialog.html',
