@@ -8,7 +8,7 @@
  * Controller of the mecanexAdminApp
  */
 angular.module('mecanexAdminApp')
-  .controller('ContentEnrichmentsCtrl',['$scope', '$stateParams', 'Session', 'SpringfieldResource',
+  .controller('EditorialToolCtrl',['$scope', '$stateParams', 'Session', 'SpringfieldResource',
   function($scope, $stateParams, Session, SpringfieldResource) {
     var springfield = new SpringfieldResource();
     var smithersUser = Session.get('smithersId');
