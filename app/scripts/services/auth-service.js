@@ -26,6 +26,11 @@ angular.module('mecanexAdminApp').factory('AuthService', function ($http, Sessio
       smithersId: 'pieter',
       password: 'pieter123',
       role: 'user'
+    },{
+      username: 'kemal@flyingeye.de',
+      smithersId: 'kemal',
+      password: 'kemal123',
+      role: 'user'
     }
 
   ];
