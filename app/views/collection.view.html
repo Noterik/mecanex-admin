@@ -55,8 +55,9 @@
                   </div>
                   <div class="col-sm-3 fill-height">
                     <div class="item-actions">
-                      <button ng-repeat="step in video.steps | reverse" title="{{step}}" class="item-action btn btn-default round-icon-button">
-                        <span class="svg-icon svg-icon-{{step}}"></span>
+                      <button ng-repeat="step in video.steps | reverse" title="{{step.name}}" class="item-action btn btn-default round-icon-button" ng-click="handleStep(video,step)">
+                        <span ng-if="step.processed == true" class="svg-icon svg-icon-{{step.icon}}-active"></span>
+                        <span ng-if="step.processed == false" class="svg-icon svg-icon-{{step.icon}}"></span>
                       </button>
                     </div>
                   </div>

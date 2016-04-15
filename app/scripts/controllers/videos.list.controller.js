@@ -84,7 +84,7 @@ angular.module('mecanexAdminApp')
     $scope.addVideo = function(videoId, id) {
       var url = '/domain/mecanex/user/' + smithersUser + '/collection/' + $scope.editCol + '/video';
       var attributes = {'attributes': [{'referid': videoId}]};
-      springfield.create(url, 'bart').save(attributes).$promise.then(function(response){
+      springfield.create(url, 'bart').save(attributes).$promise.then(function(){
         Collections.addVideoToCollection($scope.items[id], $scope.editCol);
       });
     };
@@ -113,7 +113,7 @@ angular.module('mecanexAdminApp')
 
       var deferred = $q.defer();
 
-      springfield.create("http://mecanex.noterik.com/api/mdb" + videoFile).retrieve().$promise.then(function(response) {
+      springfield.create("http://mecanex.noterik.com/api/mdbticket" + videoFile).retrieve().$promise.then(function(response) {
         deferred.resolve({
           videoUri: mount + '?ticket=' + response.fsxml.properties.ticket
         });

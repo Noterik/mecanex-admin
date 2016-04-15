@@ -74,11 +74,21 @@ angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb'
 
       if (v === undefined) { return videos; }
 
-      var categoryLimit = chance.integer({min: 1, max: 5});
-      var availableCategories = chance.pickset(categories, categoryLimit);
-
       if (angular.isArray(v)) {
         angular.forEach(v, function (val) {
+          var videoSteps = [];
+          angular.copy(steps, videoSteps);
+
+          if (val.properties.annotationsfile !== undefined) {
+            videoSteps[0].processed = true;
+            videoSteps[0].file = val.properties.annotationsfile;
+          }
+          if (val.properties.enrichmentsfile !== undefined && val.properties.editenrichmenturl !== undefined) {
+            videoSteps[1].processed = true;
+            videoSteps[1].file = val.properties.enrichmentsfile;
+            videoSteps[1].url = val.properties.editenrichmenturl;
+          }
+
           videos.push({
             _id: val._id,
             name: val.properties.TitleSet_TitleSetInEnglish_title,
@@ -87,11 +97,24 @@ angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb'
             refer: val._referid,
             categories: val.properties.categories === undefined ? [] : getCategoryObjects(val.properties.categories.split(",")),
             duration: val.properties.TechnicalInformation_itemDuration,
-            steps: steps,
+            steps: videoSteps,
             colId: colId
           });
         });
       } else {
+        var videoSteps = [];
+        angular.copy(steps, videoSteps);
+
+        if (v.properties.annotationsfile !== undefined) {
+          videoSteps[0].processed = true;
+          videoSteps[0].file = v.properties.annotationsfile;
+        }
+        if (v.properties.enrichmentsfile !== undefined && v.properties.editenrichmenturl !== undefined) {
+          videoSteps[1].processed = true;
+          videoSteps[1].file = v.properties.enrichmentsfile;
+          videoSteps[1].url = v.properties.editenrichmenturl;
+        }
+
         videos.push({
           _id: v._id,
           name: v.properties.TitleSet_TitleSetInEnglish_title,
@@ -100,7 +123,7 @@ angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb'
           refer: v._referid,
           categories: v.properties.categories === undefined ? [] : getCategoryObjects(v.properties.categories.split(",")),
           duration: v.properties.TechnicalInformation_itemDuration,
-          steps: steps,
+          steps: videoSteps,
           colId: colId
         });
       }

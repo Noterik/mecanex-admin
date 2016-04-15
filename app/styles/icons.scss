@@ -7,7 +7,7 @@ $availableIcons: "big-add", "add", "annotation", "cart", "editorial", "enrichmen
       background-image: url("../images/icons/#{$icon}.svg");
       background-repeat: no-repeat;
     }
-    &.svg-icon-#{$icon}:hover,&.svg-icon-#{$icon}.active{
+    &.svg-icon-#{$icon}-active{
       background-image: url("../images/icons/#{$icon}-hover.svg");
       background-repeat: no-repeat;
     }

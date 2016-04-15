@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('mecanexAdminApp')
-  .controller('CollectionViewCtrl', ['$scope', '$q', '$uibModal', '$stateParams', 'CollectionVideos', 'VIDEO_CATEGORIES', '_', 'SpringfieldResource',
-   function($scope, $q, $uibModal, $stateParams, CollectionVideos, VIDEO_CATEGORIES, _, SpringfieldResource) {
+  .controller('CollectionViewCtrl', ['$scope', '$q', '$uibModal', '$state', '$stateParams', 'CollectionVideos', 'VIDEO_CATEGORIES', '_', 'SpringfieldResource',
+   function($scope, $q, $uibModal, $state, $stateParams, CollectionVideos, VIDEO_CATEGORIES, _, SpringfieldResource) {
     var springfield = new SpringfieldResource();
     $scope.items = [];
 
@@ -36,7 +36,7 @@ angular.module('mecanexAdminApp')
       if (!present) {
         categoryString += ","+category.icon;
 
-        springfield.create(video.refer+"/properties/categories", 'bart', 1).update(categoryString).$promise.then(function(response) {
+        springfield.create(video.refer+"/properties/categories", 'bart', 1).update(categoryString).$promise.then(function() {
           video.categories.push(category);
         });
       }
@@ -105,6 +105,17 @@ angular.module('mecanexAdminApp')
       }
     };
 
+    $scope.handleStep = function(video, step) {
+      console.log(video);
+      console.log(step);
+      if (step.icon === "annotation") {
+        console.log("opening annotations");
+      }
+      if (step.icon === "enrichment") {
+        $state.go('pages.content-enrichments', {colId: $stateParams.colId, vidId: video._id});
+      }
+    };
+
     function handleVideo(xml, videoId) {
       var mount = xml.fsxml.video.rawvideo.properties.mount;
       var rawId = xml.fsxml.video.rawvideo._id;
@@ -122,7 +133,7 @@ angular.module('mecanexAdminApp')
 
       var deferred = $q.defer();
 
-      springfield.create("http://mecanex.noterik.com/api/mdb" + videoFile).retrieve().$promise.then(function(response) {
+      springfield.create("http://mecanex.noterik.com/api/mdbticket" + videoFile).retrieve().$promise.then(function(response) {
         deferred.resolve({
           videoUri: mount + '?ticket=' + response.fsxml.properties.ticket
         });
