@@ -55,7 +55,7 @@
                   </div>
                   <div class="col-sm-3 fill-height">
                     <div class="item-actions">
-                      <button ng-repeat="step in video.steps | reverse" class="item-action btn btn-default round-icon-button">
+                      <button ng-repeat="step in video.steps | reverse" title="{{step}}" class="item-action btn btn-default round-icon-button">
                         <span class="svg-icon svg-icon-{{step}}"></span>
                       </button>
                     </div>
@@ -66,7 +66,7 @@
                         <span class="svg-icon svg-icon-add"></span>
                       </button>
                       <div class="seperator"></div>
-                      <button ng-repeat="category in video.categories" title="{{category.name}}" class="item-action btn btn-default round-icon-button">
+                      <button ng-repeat="category in video.categories" title="{{category.name}}" class="item-action btn btn-default round-icon-button" ng-click="removeCategory(video, category.icon)">
                         <span class="png-icon png-icon-{{icons[category.name]}}"></span>
                       </button>
                     </div>

@@ -74,7 +74,6 @@ angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb'
 
       if (v === undefined) { return videos; }
 
-      var videoLimit = chance.integer({min: 50, max: 150});
       var categoryLimit = chance.integer({min: 1, max: 5});
       var availableCategories = chance.pickset(categories, categoryLimit);
 
@@ -86,8 +85,9 @@ angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb'
             description: val.properties.summaryInEnglish,
             img: val.properties.screenshot,
             refer: val._referid,
-            categories: chance.pickset(availableCategories, chance.integer({min: 1, max: availableCategories.length})),
+            categories: val.properties.categories === undefined ? [] : getCategoryObjects(val.properties.categories.split(",")),
             duration: val.properties.TechnicalInformation_itemDuration,
+            steps: steps,
             colId: colId
           });
         });
@@ -98,12 +98,27 @@ angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb'
           description: v.properties.summaryInEnglish,
           img: v.properties.screenshot,
           refer: v._referid,
-          categories: chance.pickset(availableCategories, chance.integer({min: 1, max: availableCategories.length})),
+          categories: v.properties.categories === undefined ? [] : getCategoryObjects(v.properties.categories.split(",")),
           duration: v.properties.TechnicalInformation_itemDuration,
+          steps: steps,
           colId: colId
         });
       }
       return videos;
+    }
+
+    function getCategoryObjects(chosenCategories) {
+      var arr = [];
+
+      angular.forEach(chosenCategories, function (chosenCategory) {
+        for (var i = 0; i < categories.length; i++) { //use native for because angular.foreach doesn't offer break support
+          if (categories[i].icon === chosenCategory) {
+            arr.push(categories[i]);
+            break;
+          }
+        }
+      });
+      return arr;
     }
 
     loadedCollections = loadCollections();

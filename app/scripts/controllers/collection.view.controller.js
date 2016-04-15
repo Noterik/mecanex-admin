@@ -21,8 +21,25 @@ angular.module('mecanexAdminApp')
     };
 
     $scope.toggleCategory = function(video, category){
-      console.log('VIDEO', video);
-      console.log('CATEGORY' , category);
+      var categoryString = "";
+      var present = false;
+
+      angular.forEach(video.categories, function (value, key) {
+        if (value.icon === category.icon) {
+          //already there
+          present = true;
+        } else {
+          categoryString += categoryString === "" ? video.categories[key].icon : ","+video.categories[key].icon;
+        }
+      });
+
+      if (!present) {
+        categoryString += ","+category.icon;
+
+        springfield.create(video.refer+"/properties/categories", 'bart', 1).update(categoryString).$promise.then(function(response) {
+          video.categories.push(category);
+        });
+      }
     };
 
     $scope.icons = _.object(_.map(_.values(VIDEO_CATEGORIES), function(cat) {
@@ -50,7 +67,6 @@ angular.module('mecanexAdminApp')
     };
 
     $scope.playVideo = function(videoId) {
-      console.log(videoId);
       $scope.selectedVideoId = videoId;
 
       springfield.create($scope.items[videoId].refer, 'bart', 1).retrieve().$promise.then(function(response) {
@@ -66,6 +82,27 @@ angular.module('mecanexAdminApp')
           });
         });
       });
+    };
+
+    $scope.removeCategory = function(video, category) {
+      var categoryString = "";
+      var deleteObject = -1;
+
+      angular.forEach(video.categories, function (value, key) {
+        if (value.icon === category) {
+          deleteObject = key;
+        } else {
+          categoryString += categoryString === "" ? video.categories[key].icon : ","+video.categories[key].icon;
+        }
+      });
+      //unset after loop, otherwise loop will not go correctly
+      video.categories.splice(deleteObject,1);
+
+      if (categoryString !== "") {
+        springfield.create(video.refer+"/properties/categories", 'bart', 1).update(categoryString);
+      } else {  //empty property, delete node
+        springfield.create(video.refer+"/properties/categories", 'bart', 1).delete();
+      }
     };
 
     function handleVideo(xml, videoId) {

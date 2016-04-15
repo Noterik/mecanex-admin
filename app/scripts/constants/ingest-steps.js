@@ -3,6 +3,6 @@
 angular.module('mecanexAdminApp').constant('INGEST_STEPS', {
   annotation: 'annotation',
   enrichment: 'enrichment',
-  editorial: 'editorial',
-  advertisement: 'advertisement'
+  editorial: 'editorial'//,
+  //advertisement: 'advertisement'
 });

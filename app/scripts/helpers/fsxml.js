@@ -18,7 +18,7 @@ angular.module('mecanexAdminApp').factory('Fsxml', ['X2JS',
             fsxml.appendChild(propertiesNode);
 
             angular.forEach(object.properties, function (key) {
-              angular.forEach(key, function(k, v) {            
+              angular.forEach(key, function(k, v) {
                 var fieldElement = doc.createElement(v);
                 fieldElement.textContent = k;
                 propertiesNode.appendChild(fieldElement);
@@ -35,6 +35,9 @@ angular.module('mecanexAdminApp').factory('Fsxml', ['X2JS',
                 attributesNode.appendChild(fieldElement);
               });
             });
+          } else {
+            //single property
+            doc = object;
           }
           return doc;
         },

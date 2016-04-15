@@ -1,8 +1,8 @@
 <div class="container-fluid">
   <div class="row" ng-repeat="block in categories | chunkBy: 2 track by $index" index="$index">
     <div class="col-md-6" ng-repeat="category in block">
-      <button class="item-action btn btn-default round-icon-button" title="{{category.name}}">
-        <span class="png-icon png-icon-{{category.icon}}" ng-class="{'active': pluck(popOverVideo.categories, 'name').indexOf(category.name) >= 0}" ng-click="toggleCategory(popOverVideo, category)"></span>
+      <button class="item-action btn btn-default round-icon-button" title="{{category.name}}" ng-click="toggleCategory(popOverVideo, category)">
+        <span class="png-icon png-icon-{{category.icon}}" ng-class="{'active': pluck(popOverVideo.categories, 'name').indexOf(category.name) >= 0}"></span>
       </button>
     </div>
   </div>

@@ -52,7 +52,6 @@ angular.module('mecanexAdminApp')
     };
 
     $scope.playVideo = function(videoId) {
-      console.log(videoId);
       $scope.selectedVideoId = videoId;
 
       springfield.create($scope.items[videoId].refer, 'bart', 1).retrieve().$promise.then(function(response) {
