@@ -84,14 +84,14 @@ angular.module('mecanexAdminApp')
     $scope.addVideo = function(videoId, id) {
       var url = '/domain/mecanex/user/' + smithersUser + '/collection/' + $scope.editCol + '/video';
       var attributes = {'attributes': [{'referid': videoId}]};
-      springfield.create(url, 'bart').save(attributes).$promise.then(function(){
-        Collections.addVideoToCollection($scope.items[id], $scope.editCol);
+      springfield.create(url, 'bart').save(attributes).$promise.then(function(response){
+        var newUri = response.status.properties.uri;
+        Collections.addVideoToCollection($scope.items[id], $scope.editCol, newUri);
       });
     };
 
     $scope.removeVideo = function(videoId) {
-      var url = '/domain/mecanex/user/' + smithersUser + '/collection/' + $scope.editCol + '/video/' + videoId;
-      springfield.create(url, 'bart').remove().$promise.then(function() {
+      springfield.create(videoId, 'bart').remove().$promise.then(function() {
         Collections.removeVideoFromCollection(videoId, $scope.editCol);
       });
     };

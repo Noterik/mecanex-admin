@@ -24,7 +24,15 @@ angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb'
     function parseCollections(results){
       var restructuredCollections = [];
       var allVideos = [];
-      angular.forEach(results.fsxml.collection, function(val) {
+      var collectionsArray = results.fsxml.collection;
+
+      if (!angular.isArray(collectionsArray)) {
+        var tmpArray = [];
+        tmpArray.push(collectionsArray);
+        collectionsArray = tmpArray;
+      }
+
+      angular.forEach(collectionsArray, function(val) {
         var videos = getVideos(val.video, val._id);
 
         var colCategories = _.union.apply({}, _.map(videos, function(video){
@@ -45,8 +53,6 @@ angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb'
           },
           videos: videos
         });
-
-
       });
 
       collections.insert(_.map(restructuredCollections, function(obj){
@@ -74,59 +80,38 @@ angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb'
 
       if (v === undefined) { return videos; }
 
-      if (angular.isArray(v)) {
-        angular.forEach(v, function (val) {
-          var videoSteps = [];
-          angular.copy(steps, videoSteps);
+      if (!angular.isArray(v)) {
+        var tmpArray = [];
+        tmpArray.push(v);
+        v = tmpArray;
+      }
 
-          if (val.properties.annotationsfile !== undefined) {
-            videoSteps[0].processed = true;
-            videoSteps[0].file = val.properties.annotationsfile;
-          }
-          if (val.properties.enrichmentsfile !== undefined && val.properties.editenrichmenturl !== undefined) {
-            videoSteps[1].processed = true;
-            videoSteps[1].file = val.properties.enrichmentsfile;
-            videoSteps[1].url = val.properties.editenrichmenturl;
-          }
-
-          videos.push({
-            _id: val._id,
-            name: val.properties.TitleSet_TitleSetInEnglish_title,
-            description: val.properties.summaryInEnglish,
-            img: val.properties.screenshot,
-            refer: val._referid,
-            categories: val.properties.categories === undefined ? [] : getCategoryObjects(val.properties.categories.split(",")),
-            duration: val.properties.TechnicalInformation_itemDuration,
-            steps: videoSteps,
-            colId: colId
-          });
-        });
-      } else {
+      angular.forEach(v, function (val) {
         var videoSteps = [];
         angular.copy(steps, videoSteps);
 
-        if (v.properties.annotationsfile !== undefined) {
+        if (val.properties.annotationsfile !== undefined) {
           videoSteps[0].processed = true;
-          videoSteps[0].file = v.properties.annotationsfile;
+          videoSteps[0].file = val.properties.annotationsfile;
         }
-        if (v.properties.enrichmentsfile !== undefined && v.properties.editenrichmenturl !== undefined) {
+        if (val.properties.enrichmentsfile !== undefined && val.properties.editenrichmenturl !== undefined) {
           videoSteps[1].processed = true;
-          videoSteps[1].file = v.properties.enrichmentsfile;
-          videoSteps[1].url = v.properties.editenrichmenturl;
+          videoSteps[1].file = val.properties.enrichmentsfile;
+          videoSteps[1].url = val.properties.editenrichmenturl;
         }
 
         videos.push({
-          _id: v._id,
-          name: v.properties.TitleSet_TitleSetInEnglish_title,
-          description: v.properties.summaryInEnglish,
-          img: v.properties.screenshot,
-          refer: v._referid,
-          categories: v.properties.categories === undefined ? [] : getCategoryObjects(v.properties.categories.split(",")),
-          duration: v.properties.TechnicalInformation_itemDuration,
+          _id: '/domain/mecanex/user/' + smithersUser + '/collection/' + colId + '/video/'+ val._id,
+          name: val.properties.TitleSet_TitleSetInEnglish_title,
+          description: val.properties.summaryInEnglish,
+          img: val.properties.screenshot,
+          refer: val._referid,
+          categories: val.properties.categories === undefined ? [] : getCategoryObjects(val.properties.categories.split(",")),
+          duration: val.properties.TechnicalInformation_itemDuration,
           steps: videoSteps,
           colId: colId
         });
-      }
+      });
       return videos;
     }
 
@@ -224,13 +209,15 @@ angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb'
           }
         });
       },
-      addVideoToCollection: function(item, editCollection) {
-        item.colId = editCollection;
-        delete item.$$hashKey;
+      addVideoToCollection: function(item, editCollection, newVideoId) {
+        var clone = {};
+        angular.copy(item, clone);
+        clone.colId = editCollection;
+        clone._id = newVideoId;
 
         db.collection('collections');
         collectionVideos.insert(
-          item
+          clone
         );
 
         collections.update({
@@ -240,6 +227,35 @@ angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb'
               amountVideos: 1
             }
         });
+
+        //update screenshot for collection if this is the first item
+        var results = collections.find({
+          _id: editCollection
+        });
+        if (results[0].amountVideos === 1) {
+          collections.update({
+              _id: editCollection
+            }, {
+              img: clone.img
+          });
+        }
+
+        //update collection categories
+        results = collectionVideos.find({
+          colId: editCollection
+        });
+        var colCategories = _.union.apply({}, _.map(results, function(video){
+          return _.map(video.categories, function(cat){
+            return cat.name;
+          });
+        }));
+
+        collections.update({
+            _id: editCollection
+          }, {
+            categories: colCategories
+        });
+
         $state.go($state.current, {}, {reload: true, inherit: true, notify: true});
       },
       removeVideoFromCollection: function(videoId, editCollection) {
@@ -258,6 +274,35 @@ angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb'
               amountVideos: -1
             }
         });
+
+        //update screenshot for collection if this was the last item
+        var results = collections.find({
+          _id: editCollection
+        });
+        if (results[0].amountVideos === 0) {
+          collections.update({
+              _id: editCollection
+            }, {
+              img: 'images/collections/no-thumb.png'
+          });
+        }
+
+        //update collection categories
+        results = collectionVideos.find({
+          colId: editCollection
+        });
+        var colCategories = _.union.apply({}, _.map(results, function(video){
+          return _.map(video.categories, function(cat){
+            return cat.name;
+          });
+        }));
+
+        collections.update({
+            _id: editCollection
+          }, {
+            categories: colCategories
+        });
+
         $state.go($state.current, {}, {reload: true, inherit: true, notify: true});
       }
     };
