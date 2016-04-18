@@ -94,10 +94,14 @@ angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb'
           videoSteps[0].processed = true;
           videoSteps[0].file = val.properties.annotationsfile;
         }
-        if (val.properties.enrichmentsfile !== undefined && val.properties.editenrichmenturl !== undefined) {
+        if (val.properties.editenrichmenturl !== undefined) { //val.properties.enrichmentsfile !== undefined &&
           videoSteps[1].processed = true;
-          videoSteps[1].file = val.properties.enrichmentsfile;
+          videoSteps[1].file = '';//val.properties.enrichmentsfile;
           videoSteps[1].url = val.properties.editenrichmenturl;
+        }
+        if (val.properties.editorialurl !== undefined) {
+          videoSteps[2].processed = true;
+          videoSteps[2].url = val.properties.editorialurl;
         }
 
         videos.push({

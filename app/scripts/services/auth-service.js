@@ -31,8 +31,32 @@ angular.module('mecanexAdminApp').factory('AuthService', function ($http, Sessio
       smithersId: 'kemal',
       password: 'kemal123',
       role: 'user'
+    },{
+      username: 'fokus@mecanex.eu',
+      smithersId: 'fokus',
+      password: 'fokus123',
+      role: 'user'
+    },{
+      username: 'vci@mecanex.eu',
+      smithersId: 'vci',
+      password: 'vci123',
+      role: 'user'
+    },{
+      username: 'luce@mecanex.eu',
+      smithersId: 'luce',
+      password: 'luce123',
+      role: 'user'
+    },{
+      username: 'flyingeye@mecanex.eu',
+      smithersId: 'flyingeye',
+      password: 'flyingeye123',
+      role: 'user'
+    },{
+      username: 'iccs@mecanex.eu',
+      smithersId: 'iccs',
+      password: 'iccs123',
+      role: 'user'
     }
-
   ];
 
   authService.login = function (credentials) {

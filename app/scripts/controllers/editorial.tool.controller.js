@@ -18,7 +18,7 @@ angular.module('mecanexAdminApp')
 
     var url = "/domain/mecanex/user/"+smithersUser+"/collection/"+$scope.collection+"/video/"+$scope.video;
     springfield.create(url, 'bart', 1).retrieve().$promise.then(function(response) {
-      $scope.contentenrichmenturl = response.fsxml.video.properties.editenrichment;
-      console.log($scope.contentenrichmenturl);
+      $scope.videoTitle = response.fsxml.video.properties.TitleSet_TitleSetInEnglish_title;
+      $scope.editorialurl = response.fsxml.video.properties.editorialurl;
     });
   }]);

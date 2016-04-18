@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('mecanexAdminApp')
-  .controller('CollectionViewCtrl', ['$scope', '$q', '$uibModal', '$state', '$stateParams', 'CollectionVideos', 'VIDEO_CATEGORIES', '_', 'SpringfieldResource',
-   function($scope, $q, $uibModal, $state, $stateParams, CollectionVideos, VIDEO_CATEGORIES, _, SpringfieldResource) {
+  .controller('CollectionViewCtrl', ['$scope', '$q', '$uibModal', '$state', '$stateParams', 'CollectionVideos', 'VIDEO_CATEGORIES', '_', 'SpringfieldResource', 'Session',
+   function($scope, $q, $uibModal, $state, $stateParams, CollectionVideos, VIDEO_CATEGORIES, _, SpringfieldResource, Session) {
     var springfield = new SpringfieldResource();
     $scope.items = [];
 
@@ -12,6 +12,7 @@ angular.module('mecanexAdminApp')
     $scope.maxPages = 5;
     $scope.formOpen = false;
     $scope.selectedVideoId = null;
+    $scope.smithersUser = Session.get('smithersId');
 
     $scope.categories = _.values(VIDEO_CATEGORIES);
     $scope.popOverVideo = null;
@@ -107,19 +108,28 @@ angular.module('mecanexAdminApp')
 
     $scope.handleStep = function(video, step) {
       if (step.icon === "annotation") {
-        $scope.annotationsUrl = 'http://mecanex.noterik.com/annotations/'+step.file;
+        if (step.processed) {
+          $scope.annotationsUrl = 'http://mecanex.noterik.com/annotations/'+step.file;
 
-        $uibModal.open({
-          animation: true,
-          templateUrl: 'views/annotations-dialog.html',
-          controller: 'AnnotationsDialogCtrl',
-          scope: $scope,
-          windowClass: 'app-modal-window',
-          size: 'lg'
-        });
+          $uibModal.open({
+            animation: true,
+            templateUrl: 'views/annotations-dialog.html',
+            controller: 'AnnotationsDialogCtrl',
+            scope: $scope,
+            windowClass: 'app-modal-window',
+            size: 'lg'
+          });
+        }
       }
       if (step.icon === "enrichment") {
-        $state.go('pages.content-enrichments', {colId: $stateParams.colId, vidId: video._id.substr(video._id.lastIndexOf("/")+1)});
+        if (step.processed) {
+          $state.go('pages.content-enrichments', {colId: $stateParams.colId, vidId: video._id.substr(video._id.lastIndexOf("/")+1)});
+        }
+      }
+      if (step.icon === "editorial") {
+        if (step.processed) {
+          $state.go('pages.editorial-tool', {colId: $stateParams.colId, vidId: video._id.substr(video._id.lastIndexOf("/")+1)});
+        }
       }
     };
 
@@ -148,9 +158,16 @@ angular.module('mecanexAdminApp')
       return deferred.promise;
     }
 
+    function triggerProcessing() {
+      console.log("triggering processing");
+      springfield.create("http://mecanex.noterik.com/api/mdbprocess/domain/mecanex/user/"+$scope.smithersUser+"/collection/"+$stateParams.colId+"/video").retrieve();
+    }
+
     $scope.pageChanged = function() {
       $scope.setPage($scope.currentPage);
     };
 
     $scope.setPage(1);
+
+    triggerProcessing();
   }]);
