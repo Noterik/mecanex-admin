@@ -106,13 +106,20 @@ angular.module('mecanexAdminApp')
     };
 
     $scope.handleStep = function(video, step) {
-      console.log(video);
-      console.log(step);
       if (step.icon === "annotation") {
-        console.log("opening annotations");
+        $scope.annotationsUrl = 'http://mecanex.noterik.com/annotations/'+step.file;
+
+        $uibModal.open({
+          animation: true,
+          templateUrl: 'views/annotations-dialog.html',
+          controller: 'AnnotationsDialogCtrl',
+          scope: $scope,
+          windowClass: 'app-modal-window',
+          size: 'lg'
+        });
       }
       if (step.icon === "enrichment") {
-        $state.go('pages.content-enrichments', {colId: $stateParams.colId, vidId: video._id});
+        $state.go('pages.content-enrichments', {colId: $stateParams.colId, vidId: video._id.substr(video._id.lastIndexOf("/")+1)});
       }
     };
 
