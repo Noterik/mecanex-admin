@@ -56,7 +56,18 @@ angular.module('mecanexAdminApp').factory('AuthService', function ($http, Sessio
       smithersId: 'iccs',
       password: 'iccs123',
       role: 'user'
+    }, {
+      username: 'bob@noterik.nl',
+      smithersId: 'bob',
+      password: 'bobbob',
+      role: 'user'
+    }, {
+      username: 'alice@noterik.nl',
+      smithersId: 'alice',
+      password: 'alicealice',
+      role: 'user'
     }
+
   ];
 
   authService.login = function (credentials) {
