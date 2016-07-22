@@ -100,6 +100,7 @@ angular
             controller: 'VideosListCtrl'
           }
         },
+        params: {query: null, gender: null, age: null, education: null},
         data:{authorizedRoles: [USER_ROLES.admin, USER_ROLES.user]}
       })
       .state('pages.edit-collection.other-collection', {
@@ -114,6 +115,7 @@ angular
             controller: 'VideosListCtrl'
           }
         },
+        params: {query: null, gender: null, age: null, education: null},
         data:{authorizedRoles: [USER_ROLES.admin, USER_ROLES.user]}
       })
       .state('pages.content-enrichments', {

@@ -8,8 +8,8 @@
  * Controller of the mecanexAdminApp
  */
 angular.module('mecanexAdminApp')
-  .controller('VideosListCtrl', ['$scope', '$q', '$uibModal', '$log', '$stateParams', 'CollectionVideos', 'ExternalVideos', 'SpringfieldResource', 'Session', 'Collections',
-  function($scope, $q, $uibModal, $log, $stateParams, CollectionVideos, ExternalVideos, SpringfieldResource, Session, Collections) {
+  .controller('VideosListCtrl', ['$scope', '$q', '$uibModal', '$log', '$state', '$stateParams', 'CollectionVideos', 'ExternalVideos', 'SpringfieldResource', 'Session', 'Collections', 'VIDEO_CATEGORIES', 'GENDERS', 'AGES', 'EDUCATIONS',
+  function($scope, $q, $uibModal, $log, $state, $stateParams, CollectionVideos, ExternalVideos, SpringfieldResource, Session, Collections, VIDEO_CATEGORIES, GENDERS, AGES, EDUCATIONS) {
     var springfield = new SpringfieldResource();
     var smithersUser = Session.get('smithersId');
 
@@ -23,19 +23,25 @@ angular.module('mecanexAdminApp')
     $scope.editCol = $stateParams.editColId;
     $scope.selectedVideoId = null;
     $scope.smithersUser = smithersUser;
+    $scope.categories = _.values(VIDEO_CATEGORIES);
+    $scope.genders = _.values(GENDERS);
+    $scope.ages = _.values(AGES);
+    $scope.educations = _.values(EDUCATIONS);
 
     var Videos = $scope.col === 'repository' ? ExternalVideos :CollectionVideos;
-    var query = $scope.col ? {
-      colId: $scope.col
-    } : {
-      colId: $scope.editCol
-    };
+    var query = $stateParams.query ? $stateParams.query : null;
+    var gender = $stateParams.gender ? $stateParams.gender : null;
+    var age = $stateParams.age ? $stateParams.age : null;
+    var education = $stateParams.education ? $stateParams.education : null;
 
     $scope.setPage = function(pageNo) {
       $scope.currentPage = pageNo;
 
       Videos.query({
         query: query,
+        gender: gender,
+        age: age,
+        education: education,
         settings: {
           page: $scope.currentPage,
           limit: $scope.limit
@@ -91,9 +97,19 @@ angular.module('mecanexAdminApp')
     };
 
     $scope.removeVideo = function(videoId) {
+      console.log("Removing video from "+$scope.editCol);
+      console.log("Removing video id = "+videoId);
       springfield.create(videoId, 'bart').remove().$promise.then(function() {
         Collections.removeVideoFromCollection(videoId, $scope.editCol);
       });
+    };
+
+    $scope.search = function() {
+      query = this.searchQuery;
+      gender = this.gender;
+      age = this.age;
+      education = this.education;
+      $state.go($state.current, {"query": query, "gender": gender, "age": age, "education": education}, {reload: true, inherit: true, notify: true});
     };
 
     function handleVideo(xml, videoId) {

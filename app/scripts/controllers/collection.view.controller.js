@@ -55,7 +55,7 @@ angular.module('mecanexAdminApp')
       };
 
       CollectionVideos.query({
-        query: query,
+        query: "",
         settings: {
           page: $scope.currentPage,
           limit: $scope.limit

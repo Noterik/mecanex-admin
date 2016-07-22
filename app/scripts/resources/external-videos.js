@@ -7,14 +7,14 @@ angular.module('mecanexAdminApp').factory('ExternalVideos', ['$q', '$fdb', 'Spri
     var db = $fdb.db('Mecanex');
     var externalVideos = db.collection('external-videos');
     var totalItems = 0;
-    var reposityUrl = '/domain/mecanex/user/luce/video/';
+    var reposityUrl = '/domain/mecanex/user/luce/collection/1/video';
 
     var steps = _.values(INGEST_STEPS);
     var categories = _.values(VIDEO_CATEGORIES);
 
-    function loadExternalVideos(page, limit){
+    function loadExternalVideos(page, limit, query, gender, age, education){
       return $q(function(resolve){
-        getExternalVideos(page*limit,limit).then(function(results){
+        getExternalVideos(page*limit,limit, query, gender, age, education).then(function(results){
           var videos = parseExternalVideos(results);
           resolve(
             videos
@@ -23,8 +23,8 @@ angular.module('mecanexAdminApp').factory('ExternalVideos', ['$q', '$fdb', 'Spri
       });
     }
 
-    function getExternalVideos(start, limit) {
-        return springfield.create(reposityUrl, 'bart', 1, start, limit).retrieve().$promise.then(function(response) {
+    function getExternalVideos(start, limit, query, gender, age, education) {
+        return springfield.create(reposityUrl, 'bart', 1, start, limit, query, gender, age, education).retrieve().$promise.then(function(response) {
         return response;
       });
     }
@@ -34,6 +34,12 @@ angular.module('mecanexAdminApp').factory('ExternalVideos', ['$q', '$fdb', 'Spri
 
       if (results.fsxml.properties.totalResultsAvailable !== totalItems) {
         totalItems = results.fsxml.properties.totalResultsAvailable;
+      }
+
+      if (!angular.isArray(results.fsxml.video)) {
+        var tmpArray = [];
+        tmpArray.push(results.fsxml.video);
+        results.fsxml.video = tmpArray;
       }
 
       angular.forEach(results.fsxml.video, function (val) {
@@ -55,7 +61,7 @@ angular.module('mecanexAdminApp').factory('ExternalVideos', ['$q', '$fdb', 'Spri
           name: val.properties.TitleSet_TitleSetInEnglish_title,
           description: val.properties.summaryInEnglish,
           img: val.properties.screenshot,
-          refer: reposityUrl+val._id,
+          refer: val._referid,
           categories: val.properties.categories === undefined ? [] : getCategoryObjects(val.properties.categories.split(",")),
           duration: val.properties.TechnicalInformation_itemDuration,
           steps: videoSteps,
@@ -82,15 +88,14 @@ angular.module('mecanexAdminApp').factory('ExternalVideos', ['$q', '$fdb', 'Spri
     return {
       query: function(params){
         params = params ? params : {};
-        var query = params.query ? params.query : {};
+        var query = params.query ? params.query : "";
         var settings = params.settings ? params.settings : {
           page: 0,
           limit: 10
         };
-
         var deferred = $q.defer();
 
-        loadExternalVideos(settings.page-1, settings.limit).then(function(results){
+        loadExternalVideos(settings.page-1, settings.limit, query).then(function(results){
           deferred.resolve({
             totalItems: totalItems,
             itemsPerPage: settings.limit,

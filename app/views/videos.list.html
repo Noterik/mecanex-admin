@@ -2,23 +2,47 @@
   <div class="row">
     <div class="navbar navbar-default">
       <div class="col-sm-3">
-        <form class="navbar-form navbar-input-group" role="search">
+        <form class="navbar-form navbar-input-group" role="search" ng-submit ="search()">
           <div class="form-group">
             <div class="input-group search">
-              <input type="text" class="form-control" placeholder="Search">
+              <input type="text" class="form-control" placeholder="Search" ng-Model="searchQuery" name="searchQuery">
               <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
             </div>
           </div>
         </form>
       </div>
-      <div class="col-sm-6">
-          <form class="text-center navbar-form navbar-input-group paging" role="pagination">
+      <div class="col-sm-6" ng-show="col == 'repository'"><!-- ng-if="col == 'repository'">-->
+        <form class="text-center navbar-form navbar-input-group paging" role="pagination">
               <div class="form-group">
                 <uib-pagination max-size="maxPages" ng-hide="totalItems < limit" boundary-links="true" boundary-link-numbers="true" rotate="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" ng-change="pageChanged()"></uib-pagination>
               </div>
-          </form>
+        </form>
       </div>
-      <div class="col-sm-3">
+      <div class="col-sm-3" ng-show="col == 'repository'">
+      </div>
+      <div class="col-sm-3" ng-show="col != 'repository'">
+        <form class="navbar-form navbar-input-group">
+          <label for="gender">Order by gender:</label>
+          <select class="form-control" ng-Model="gender" name="gender" ng-Change="search()" id="gender">
+            <option ng-repeat="gender in genders" value="{{gender.id}}">{{gender.name}}</option>
+          </select>
+        </form>
+      </div>
+      <div class="col-sm-3" ng-show="col != 'repository'">
+        <form class="navbar-form navbar-input-group">
+          <label for="age">Order by age:</label>
+          <select class="form-control" ng-Model="age" name="age" ng-Change="search()" id="age">
+            <option ng-repeat="age in ages" value="{{age.id}}">{{age.name}}</option>
+          </select>
+        </form>
+      </div>
+      <div class="col-sm-3" ng-show="col != 'repository'">
+        <form class="navbar-form navbar-input-group">
+          <label for="age">Order by education:</label>
+          <select class="form-control" ng-Model="education" name="education" ng-Change="search()" id="education">
+            <option ng-repeat="education in educations" value="{{education.id}}">{{education.name}}</option>
+          </select>
+        </form>
       </div>
     </div>
   </div>

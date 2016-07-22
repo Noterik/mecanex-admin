@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb', '$state', 'SpringfieldResource', '_', 'Session', 'INGEST_STEPS', 'VIDEO_CATEGORIES',
-  function(chance, $q, $fdb, $state, SpringfieldResource, _, Session, INGEST_STEPS, VIDEO_CATEGORIES) {
+angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb', '$state', '$stateParams', 'SpringfieldResource', '_', 'Session', 'INGEST_STEPS', 'VIDEO_CATEGORIES',
+  function(chance, $q, $fdb, $state, $stateParams, SpringfieldResource, _, Session, INGEST_STEPS, VIDEO_CATEGORIES) {
     var springfield = new SpringfieldResource();
     var db = $fdb.db('Mecanex');
     var collections = db.collection('collections');
@@ -32,10 +32,26 @@ angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb'
         collectionsArray = tmpArray;
       }
 
-      angular.forEach(collectionsArray, function(val) {
-        var videos = getVideos(val.video, val._id);
+      var settings = {
+        page: 0,
+        limit: 10
+      };
 
-        var colCategories = _.union.apply({}, _.map(videos, function(video){
+      angular.forEach(collectionsArray, function(val) {
+        var deferred = $q.defer();
+
+        var videos = loadExternalVideos(0, 100, "", val._id).then(function(results) {
+          deferred.resolve({
+            totalItems: results.totalItemsAvailable,
+            itemsPerPage: settings.limit,
+            page: settings.page,
+            items: results.videos
+          });
+        });
+
+        var colvid = getVideos(val.video, val._id);
+
+        var colCategories = _.union.apply({}, _.map(colvid, function(video){
           return _.map(video.categories, function(cat){
             return cat.name;
           });
@@ -46,8 +62,8 @@ angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb'
             _id: val._id,
             name: val.properties.title,
             description: val.properties.description,
-            amountVideos: videos.length,
-            img: videos.length > 0 ? videos[0].img : 'images/collections/no-thumb.png',
+            amountVideos: val.video ? (!angular.isArray(val.video) ? 1 : val.video.length) : 0,
+            img: val.video && val.video ? (!angular.isArray(val.video) ? val.video.properties.screenshot : val.video[0].properties.screenshot) : 'images/collections/no-thumb.png',
             categories: colCategories,
             steps: steps.slice(0, chance.integer({min: 0, max: steps.length}))
           },
@@ -66,6 +82,85 @@ angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb'
         allVideos = allVideos.concat(mappedVideos[i]);
       }
       collectionVideos.insert(allVideos);
+    }
+
+    function loadExternalVideos(page, limit, query, collId, gender, age, education){
+      return $q(function(resolve){
+        getExternalVideos(page*limit,limit, query, collId, gender, age, education).then(function(results){
+          var videoObj = parseExternalVideos(results, collId);
+          resolve(
+            videoObj
+          );
+        });
+      });
+    }
+
+    function getExternalVideos(start, limit, query, collId, gender, age, education) {
+        var url = '/domain/mecanex/user/' + smithersUser + '/collection/'+ collId +"/video";
+        return springfield.create(url, 'bart', 1, start, limit, query, gender, age, education).retrieve().$promise.then(function(response) {
+        return response;
+      });
+    }
+
+    function parseExternalVideos(results, collId) {
+      var videoObj = {};
+      var videos = [];
+      var totalItemsAvailable = 0;
+
+      totalItemsAvailable = results.fsxml.properties.totalResultsAvailable;
+
+      if (totalItemsAvailable > 0) {
+        if (!angular.isArray(results.fsxml.video)) {
+          var tmpArray = [];
+          tmpArray.push(results.fsxml.video);
+          results.fsxml.video = tmpArray;
+        }
+
+        angular.forEach(results.fsxml.video, function (val) {
+          var videoSteps = [];
+          angular.copy(steps, videoSteps);
+
+          if (val.properties.annotationsfile !== undefined) {
+            videoSteps[0].processed = true;
+            videoSteps[0].file = val.properties.annotationsfile;
+          }
+          if (val.properties.enrichmentsfile !== undefined && val.properties.editenrichmenturl !== undefined) {
+            videoSteps[1].processed = true;
+            videoSteps[1].file = val.properties.enrichmentsfile;
+            videoSteps[1].url = val.properties.editenrichmenturl;
+          }
+
+          videos.push({
+            _id: '/domain/mecanex/user/' + smithersUser + '/collection/' + collId + '/video/'+ val._id,
+            name: val.properties.TitleSet_TitleSetInEnglish_title,
+            description: val.properties.summaryInEnglish,
+            img: val.properties.screenshot,
+            refer: val._referid,
+            categories: val.properties.categories === undefined ? [] : getCategoryObjects(val.properties.categories.split(",")),
+            duration: val.properties.TechnicalInformation_itemDuration,
+            steps: videoSteps,
+            colId: results.fsxml._id
+          });
+        });
+      }
+      videoObj.videos = videos;
+      videoObj.totalItemsAvailable = totalItemsAvailable;
+
+      return videoObj;
+    }
+
+    function getCategoryObjects(chosenCategories) {
+      var arr = [];
+
+      angular.forEach(chosenCategories, function (chosenCategory) {
+        for (var i = 0; i < categories.length; i++) { //use native for because angular.foreach doesn't offer break support
+          if (categories[i].icon === chosenCategory) {
+            arr.push(categories[i]);
+            break;
+          }
+        }
+      });
+      return arr;
     }
 
     function getCollections() {
@@ -116,6 +211,7 @@ angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb'
           colId: colId
         });
       });
+
       return videos;
     }
 
@@ -159,20 +255,30 @@ angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb'
       },
       queryVideos: function(params) {
         params = params ? params : {};
-        var query = params.query ? params.query : {};
+        var query = params.query ? params.query : "";
+        var gender = params.gender ? params.gender : "";
+        var age = params.age ? params.age : "";
+        var education = params.education ? params.education : "";
         var settings = params.settings ? params.settings : {
           page: 1,
           limit: 10
         };
 
+        var coll = $stateParams.editColId;
+
+        if ($stateParams.colId !== undefined) {
+          coll = $stateParams.colId;
+        }
+
         var deferred = $q.defer();
         loadedCollections.then(function(){
-          var results = collectionVideos.find(query, {$page:settings.page - 1, $limit:settings.limit});
-          deferred.resolve({
-            totalItems: results.$cursor.records ? results.$cursor.records : results.length,
-            itemsPerPage: settings.limit,
-            page: settings.page,
-            items: results
+          loadExternalVideos(settings.page-1, settings.limit, query, coll, gender, age, education).then(function(results){
+            deferred.resolve({
+              totalItems: results.totalItemsAvailable,
+              itemsPerPage: settings.limit,
+              page: settings.page,
+              items: results.videos
+            });
           });
         });
         return deferred.promise;
