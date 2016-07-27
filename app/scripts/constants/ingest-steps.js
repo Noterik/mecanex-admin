@@ -19,6 +19,12 @@ angular.module('mecanexAdminApp').constant('INGEST_STEPS', {
     icon: 'editorial',
     processed: false,
     file: ""
+  },
+  export: {
+    name: 'Export to WDR mediagroup',
+    icon: 'export',
+    processed: false,
+    file: ""
   }
     //,
   //advertisement: 'advertisement'

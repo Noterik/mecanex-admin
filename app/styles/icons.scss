@@ -1,5 +1,5 @@
 /** Ingest steps icons **/
-$availableIcons: "big-add", "add", "annotation", "cart", "editorial", "enrichment", "arts", "disasters", "education", "environment", "health", "holidays", "lifestyle", "media", "politics", "religion", "society", "transportation", "wars", "work";
+$availableIcons: "big-add", "add", "annotation", "cart", "editorial", "enrichment", "arts", "disasters", "education", "environment", "health", "holidays", "lifestyle", "media", "politics", "religion", "society", "transportation", "wars", "work", "export";
 
 .svg-icon{
   @each $icon in $availableIcons{
