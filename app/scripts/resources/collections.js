@@ -133,10 +133,6 @@ angular.module('mecanexAdminApp').factory('Collections', ['chance', '$q', '$fdb'
             videoSteps[2].processed = true;
             videoSteps[2].url = val.properties.editorialurl;
           }
-          if (val.properties.editorialurl !== undefined) {
-            videoSteps[3].processed = true;
-            videoSteps[3].url = val.properties.editorialurl;
-          }
 
           videos.push({
             _id: '/domain/mecanex/user/' + smithersUser + '/collection/' + collId + '/video/'+ val._id,

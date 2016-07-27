@@ -131,6 +131,9 @@ angular.module('mecanexAdminApp')
           $state.go('pages.editorial-tool', {colId: $stateParams.colId, vidId: video._id.substr(video._id.lastIndexOf("/")+1)});
         }
       }
+      if (step.icon === "export") {
+        step.processed = !step.processed;
+      }
     };
 
     function handleVideo(xml, videoId) {
