@@ -1,13 +1,18 @@
 'use strict';
 
-angular.module('mecanexAdminApp').factory('ExternalVideos', ['$q', '$fdb', 'SpringfieldResource', '_', 'INGEST_STEPS', 'VIDEO_CATEGORIES',
-  function($q, $fdb, SpringfieldResource, _, INGEST_STEPS, VIDEO_CATEGORIES) {
+angular.module('mecanexAdminApp').factory('ExternalVideos', ['$q', '$fdb', 'SpringfieldResource', '_', 'INGEST_STEPS', 'VIDEO_CATEGORIES', 'Session',
+  function($q, $fdb, SpringfieldResource, _, INGEST_STEPS, VIDEO_CATEGORIES, Session) {
 
     var springfield = new SpringfieldResource();
     var db = $fdb.db('Mecanex');
     var externalVideos = db.collection('external-videos');
     var totalItems = 0;
+    var smithersUser = Session.get('smithersId');
     var reposityUrl = '/domain/mecanex/user/luce/collection/1/video';
+
+    if (smithersUser === "editor") {
+      reposityUrl = '/domain/mecanex/user/wdr/collection/1/video';
+    }
 
     var steps = _.values(INGEST_STEPS);
     var categories = _.values(VIDEO_CATEGORIES);

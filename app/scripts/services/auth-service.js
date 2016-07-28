@@ -66,6 +66,11 @@ angular.module('mecanexAdminApp').factory('AuthService', function ($http, Sessio
       smithersId: 'alice',
       password: 'alicealice',
       role: 'user'
+    }, {
+      username: 'editor@wdr-mediagroup.com',
+      smithersId: 'editor',
+      password: 'editorwdr',
+      role: 'user'
     }
 
   ];

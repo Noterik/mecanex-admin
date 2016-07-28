@@ -122,7 +122,9 @@ angular.module('mecanexAdminApp')
       if (mount.indexOf('http') === -1) {
         mount = 'http://' + mount + '.noterik.com/progressive/' + mount + videoId + '/rawvideo/' + rawId + '/raw.' + extension;
       }
-      mount = mount.replace('mecanex', 'euscreenxl');
+      if (smithersUser !== "editor") {
+        mount = mount.replace('mecanex', 'euscreenxl');
+      }
       mount = mount.replace('luce', 'eu_luce');
 
       var videoFile = mount.substring(mount.indexOf('progressive') + 11);
